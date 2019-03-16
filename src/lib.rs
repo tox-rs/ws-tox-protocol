@@ -1,16 +1,14 @@
 use serde::{Serialize, Deserialize};
-use wasm_typescript_definition::TypescriptDefinition;
-use wasm_bindgen::prelude::*;
 
 use std::convert::TryFrom;
 
-#[derive(TypescriptDefinition, Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug)]
 pub enum ServerMessage {
     Response(Response),
     Event(Event),
 }
 
-#[derive(TypescriptDefinition, Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug)]
 #[serde(tag = "request")]
 pub enum Request {
     Info,
@@ -19,7 +17,7 @@ pub enum Request {
     SendFriendMessage { friend: u32, kind: MessageType, message: String },
 }
 
-#[derive(TypescriptDefinition, Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug)]
 #[serde(tag = "response")]
 pub enum Response {
     Ok,
@@ -27,7 +25,7 @@ pub enum Response {
     SendFriendMessageError { error: SendFriendMessageError },
 }
 
-#[derive(TypescriptDefinition, Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug)]
 #[serde(tag = "event")]
 pub enum Event {
     ConnectionStatus { status: ConnectionStatus },
@@ -65,7 +63,7 @@ impl Event {
     }
 }
 
-#[derive(TypescriptDefinition, Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug)]
 pub enum ConnectionStatus {
     None,
     Tcp,
@@ -85,7 +83,7 @@ impl From<rstox::core::Connection> for ConnectionStatus {
     }
 }
 
-#[derive(TypescriptDefinition, Serialize, Deserialize, Clone, Copy, Debug)]
+#[derive(Serialize, Deserialize, Clone, Copy, Debug)]
 pub enum MessageType {
     Normal,
     Action,
@@ -115,7 +113,7 @@ impl From<MessageType> for rstox::core::MessageType {
     }
 }
 
-#[derive(TypescriptDefinition, Serialize, Deserialize, Clone, Copy, Debug)]
+#[derive(Serialize, Deserialize, Clone, Copy, Debug)]
 pub enum AddFriendError {
     TooLong,
     NoMessage,
@@ -144,7 +142,7 @@ impl TryFrom<rstox::core::errors::FriendAddError> for AddFriendError {
     }
 }
 
-#[derive(TypescriptDefinition, Serialize, Deserialize, Clone, Copy, Debug)]
+#[derive(Serialize, Deserialize, Clone, Copy, Debug)]
 pub enum SendFriendMessageError {
     NotFound,
     NotConnected,
