@@ -1,0 +1,25 @@
+{
+  "name": "ws-tox-protocol",
+  "version": "1.0.0",
+  "description": "ws-tox protocol",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/suhr/ws-tox-protocol.git"
+  },
+  "keywords": [
+    "ws-tox",
+    "protocol",
+    "types"
+  ],
+  "author": "suhr",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/suhr/ws-tox-protocol/issues"
+  },
+  "homepage": "https://github.com/suhr/ws-tox-protocol#readme",
+
+  "types": "./lib/protocol.d.ts",
+  "dependencies": {
+    "typescript": "next"
+  }
+}
