@@ -2,13 +2,13 @@ type ServerMessage = ToxResponse | ToxEvent;
 
 type ToxRequest =
     { "request": "Info" } |
-    { "request": "AddFriend", "tox_id": String, "message": String} |
-    { "request": "AddFriendNorequest", "tox_id": String } |
+    { "request": "AddFriend", "tox_id": string, "message": string} |
+    { "request": "AddFriendNorequest", "tox_id": string } |
     {
         "request": "SendFriendMessage",
         "friend": number,
         "kind": MessageType,
-        "message": String
+        "message": string
     };
 
 type ToxResponse =
@@ -18,8 +18,8 @@ type ToxResponse =
 
 type ToxEvent =
     { "event": "ConnectionStatus", "status": ConnectionStatus } |
-    { "event": "FriendRequest", "public_key": number[], "message": String} |
-    { "event": "FriendMessage", "friend": number, "kind": MessageType, "message": String } |
+    { "event": "FriendRequest", "public_key": number[], "message": string} |
+    { "event": "FriendMessage", "friend": number, "kind": MessageType, "message": string } |
     { "event": "FriendConnectionStatus", "friend": number, "status": ConnectionStatus};
 
 type ConnectionStatus = "None" | "Tcp" | "Udp";
