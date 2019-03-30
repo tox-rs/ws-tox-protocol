@@ -21,6 +21,7 @@ pub enum Request {
 #[serde(tag = "response")]
 pub enum Response {
     Ok,
+    Info { name: String, tox_id: String },
     AddFriendError { error: AddFriendError },
     SendFriendMessageError { error: SendFriendMessageError },
 }
