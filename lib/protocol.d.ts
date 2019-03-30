@@ -13,6 +13,7 @@ type ToxRequest =
 
 type ToxResponse =
     { "response": "Ok" } |
+    { "response": "Info", "name": string, "tox_id": string } |
     { "response": "AddFriendError", "error": AddFriendError } |
     { "response": "SendFriendMessageError", "error": SendFriendMessageError };
 
