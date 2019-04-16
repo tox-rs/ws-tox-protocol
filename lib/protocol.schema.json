@@ -1,0 +1,129 @@
+{
+    "title": "ServerMessage",
+    "oneOf": [
+        { "$ref": "#/definitions/Response" },
+        { "$ref": "#/definitions/Event" }
+    ],
+
+    "definitions": {
+        "Response": {
+            "definitions": {
+                "Ok": {
+                    "type": "object",
+                    "properties": {
+                        "response": { "enum": ["Ok"] }
+                    },
+                    "required": [ "response" ]
+                },
+                "Info": {
+                    "type": "object",
+                    "properties": {
+                        "response": { "enum": ["Info"] },
+                        "name": { "type": "string" },
+                        "tox_id": { "type": "string" }
+                    },
+                    "required": [ "response", "name", "tox_id" ]
+                },
+                "AddFriendError": {
+                    "type": "object",
+                    "properties": {
+                        "response": { "enum": ["AddFriendError"] },
+                        "error": {
+                            "enum": [
+                                "TooLong",
+                                "NoMessage",
+                                "OwnKey",
+                                "AlreadySent",
+                                "BadChecksum",
+                                "SetNewNospam"
+                            ]
+                        }
+                    },
+                    "required": [ "response", "error" ]
+                },
+                "SendFriendMessage": {
+                    "type": "object",
+                    "properties": {
+                        "response": { "enum": ["SendFriendMessage"] },
+                        "error": {
+                            "enum": [
+                                "NotFound",
+                                "NotConnected",
+                                "TooLong",
+                                "Empty"
+                            ]
+                        }
+                    },
+                    "required": [ "response", "error" ]
+                }
+            },
+            "oneOf": [
+                { "$ref": "#/definitions/Response/definitions/Ok" },
+                { "$ref": "#/definitions/Response/definitions/Info" },
+                { "$ref": "#/definitions/Response/definitions/AddFriendError" },
+                { "$ref": "#/definitions/Response/definitions/SendFriendMessage" }
+            ]
+        },
+        "Event": {
+            "definitions": {
+                "ConnectionStatus": {
+                    "type": "object",
+                    "properties": {
+                        "event": { "enum": ["ConnectionStatus"] },
+                        "status": {
+                            "enum": [
+                                "None",
+                                "Tcp",
+                                "Udp"
+                            ]
+                        }
+                    },
+                    "required": [ "event", "status" ]
+                },
+                "FriendRequest": {
+                    "type": "object",
+                    "properties": {
+                        "event": { "enum": ["FriendRequest"] },
+                        "public_key": {
+                            "type": "array",
+                            "items": [{ "type": "number" }]
+                        },
+                        "message": { "type": "string" }
+                    },
+                    "required": [ "event", "public_key", "message" ]
+                },
+                "FriendMessage": {
+                    "type": "object",
+                    "properties": {
+                        "event": { "enum": ["FriendMessage"] },
+                        "friend": { "type": "number" },
+                        "kind": { "enum": ["Normal", "Action"] },
+                        "message": {"type": "string" }
+                    },
+                    "required": [ "event", "friend", "kind", "message" ]
+                },
+                "FriendConnectionStatus": {
+                    "type": "object",
+                    "properties": {
+                        "event": { "enum": ["FriendConnectionStatus"] },
+                        "friend": { "type": "number" },
+                        "status": {
+                            "enum": [
+                                "None",
+                                "Tcp",
+                                "Udp"
+                            ]
+                        }
+                    },
+                    "required": [ "event", "friend", "status" ]
+                }
+            },
+            "oneOf": [
+                { "$ref": "#/definitions/Event/definitions/ConnectionStatus" },
+                { "$ref": "#/definitions/Event/definitions/FriendRequest" },
+                { "$ref": "#/definitions/Event/definitions/FriendMessage" },
+                { "$ref": "#/definitions/Event/definitions/FriendConnectionStatus" }
+            ]
+        }
+    }
+}
