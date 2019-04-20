@@ -19,7 +19,17 @@ export type ToxEvent =
     Events.FriendConnectionStatus;
 
 export type ConnectionStatus = "None" | "Tcp" | "Udp";
+export type UserStatus = "None" | "Away" | "Busy";
 export type MessageType = "Normal" | "Action";
+
+export interface Friend {
+    number: number,
+    public_key: string,
+    name: string,
+    status: UserStatus,
+    status_message: string,
+    last_online: number,
+}
 
 export namespace Requests {
     export interface Request {
@@ -60,8 +70,11 @@ export namespace Responses {
 
     export interface Info extends Response {
         "response": "Info",
+        "tox_id": string,
         "name": string,
-        "tox_id": string
+        "status": UserStatus,
+        "status_message": string
+        "friends": Friend[],
     }
 
     export interface AddFriendError extends Response {

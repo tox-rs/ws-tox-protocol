@@ -19,10 +19,29 @@
                     "type": "object",
                     "properties": {
                         "response": { "enum": ["Info"] },
+                        "tox_id": { "type": "string" },
                         "name": { "type": "string" },
-                        "tox_id": { "type": "string" }
+                        "status": {
+                            "enum": [
+                                "None",
+                                "Away",
+                                "Busy"
+                            ]
+                        },
+                        "status_message": { "type": "string" },
+                        "friends": {
+                            "type": "array",
+                            "items": { "$ref": "#/definitions/Friend" }
+                        }
                     },
-                    "required": [ "response", "name", "tox_id" ]
+                    "required": [
+                        "response",
+                        "tox_id",
+                        "name",
+                        "status",
+                        "status_message",
+                        "friends"
+                    ]
                 },
                 "AddFriendError": {
                     "type": "object",
@@ -123,6 +142,31 @@
                 { "$ref": "#/definitions/Event/definitions/FriendRequest" },
                 { "$ref": "#/definitions/Event/definitions/FriendMessage" },
                 { "$ref": "#/definitions/Event/definitions/FriendConnectionStatus" }
+            ]
+        },
+        "Friend": {
+            "type": "object",
+            "properties": {
+                "number": { "type": "number" },
+                "public_key": { "type": "string" },
+                "name": { "type": "string" },
+                "status": {
+                    "enum": [
+                        "None",
+                        "Away",
+                        "Busy"
+                    ]
+                },
+                "status_message": { "type": "string" },
+                "last_online": { "type": "number" }
+            },
+            "required": [
+                "number",
+                "public_key",
+                "name",
+                "status",
+                "status_message",
+                "last_online"
             ]
         }
     }
