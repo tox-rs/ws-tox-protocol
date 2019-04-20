@@ -21,7 +21,13 @@ pub enum Request {
 #[serde(tag = "response")]
 pub enum Response {
     Ok,
-    Info { name: String, tox_id: String },
+    Info {
+        tox_id: String,
+        name: String,
+        status: UserStatus,
+        status_message: String,
+        friends: Vec<Friend>
+    },
     AddFriendError { error: AddFriendError },
     SendFriendMessageError { error: SendFriendMessageError },
 }
@@ -65,6 +71,16 @@ impl Event {
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug)]
+pub struct Friend {
+    number: u32,
+    public_key: String,
+    name: String,
+    status: UserStatus,
+    status_message: String,
+    last_online: u64,
+}
+
+#[derive(Serialize, Deserialize, Clone, Debug)]
 pub enum ConnectionStatus {
     None,
     Tcp,
@@ -80,6 +96,26 @@ impl From<rstox::core::Connection> for ConnectionStatus {
             C::None => ConnectionStatus::None,
             C::Tcp => ConnectionStatus::Tcp,
             C::Udp => ConnectionStatus::Udp,
+        }
+    }
+}
+
+#[derive(Serialize, Deserialize, Clone, Debug)]
+pub enum UserStatus {
+    None,
+    Away,
+    Busy,
+}
+
+#[cfg(not(target_arch = "wasm32"))]
+impl From<rstox::core::UserStatus> for UserStatus {
+    fn from(status: rstox::core::UserStatus) -> UserStatus {
+        use rstox::core::UserStatus as S;
+
+        match status {
+            S::None => UserStatus::None,
+            S::Away => UserStatus::Away,
+            S::Busy => UserStatus::Busy,
         }
     }
 }
