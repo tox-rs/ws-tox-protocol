@@ -1,0 +1,14 @@
+matrix:
+  include:
+  - language: node_js
+    node_js:
+      - "7"
+    before_script:
+      - npm install -g typescript
+      - npm install -g ajv-cli
+    script:
+      - npm run build
+      - ajv compile -s lib/protocol.schema.json
+  - language: rust
+    script:
+      - cargo check
