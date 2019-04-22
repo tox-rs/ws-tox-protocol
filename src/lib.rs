@@ -72,12 +72,12 @@ impl Event {
 
 #[derive(Serialize, Deserialize, Clone, Debug)]
 pub struct Friend {
-    number: u32,
-    public_key: String,
-    name: String,
-    status: UserStatus,
-    status_message: String,
-    last_online: u64,
+    pub number: u32,
+    pub public_key: String,
+    pub name: String,
+    pub status: UserStatus,
+    pub status_message: String,
+    pub last_online: u64,
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug)]
