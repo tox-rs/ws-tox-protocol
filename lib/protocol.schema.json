@@ -15,6 +15,14 @@
                     },
                     "required": [ "response" ]
                 },
+                "MessageSent": {
+                    "type": "object",
+                    "properties": {
+                        "response": { "enum": ["MessageSent"] },
+                        "message_id": { "type": "number" }
+                    },
+                    "required": [ "response", "message_id" ]
+                },
                 "Info": {
                     "type": "object",
                     "properties": {

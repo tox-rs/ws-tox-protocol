@@ -73,6 +73,11 @@ export namespace Responses {
         "response": "Ok"
     }
 
+    export interface MessageSent extends Response {
+        "response": "MessageSent",
+        "message_id": number
+    }
+
     export interface Info extends Response {
         "response": "Info",
         "tox_id": string,
