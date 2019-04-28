@@ -16,19 +16,24 @@ export type ToxEvent =
     Events.ConnectionStatus |
     Events.FriendRequest |
     Events.FriendMessage |
-    Events.FriendConnectionStatus;
+    Events.FriendName |
+    Events.FriendStatusMessage |
+    Events.FriendStatus |
+    Events.FriendConnectionStatus |
+    Events.FriendTyping |
+    Events.FriendReadReceipt;
 
 export type ConnectionStatus = "None" | "Tcp" | "Udp";
 export type UserStatus = "None" | "Away" | "Busy";
 export type MessageType = "Normal" | "Action";
 
 export interface Friend {
-    number: number,
-    public_key: string,
-    name: string,
-    status: UserStatus,
-    status_message: string,
-    last_online: number,
+    "number": number,
+    "public_key": string,
+    "name": string,
+    "status": UserStatus,
+    "status_message": string,
+    "last_online": number,
 }
 
 export namespace Requests {
@@ -90,7 +95,7 @@ export namespace Responses {
 
 export namespace Events {
     export interface Event {
-        event: string
+        "event": string
     }
 
     export interface ConnectionStatus extends Event {
@@ -111,10 +116,35 @@ export namespace Events {
         "message": string
     }
 
+    export interface FriendName extends Event {
+        "friend": number,
+        "name": string
+    }
+
+    export interface FriendStatusMessage extends Event {
+        "friend": number,
+        "status": string
+    }
+
+    export interface FriendStatus extends Event {
+        "friend": number,
+        "status": UserStatus
+    }
+
     export interface FriendConnectionStatus extends Event {
         "event": "FriendConnectionStatus",
         "friend": number,
         "status": ConnectionStatus
+    }
+
+    export interface FriendTyping extends Event {
+        "friend": number,
+        "is_typing": boolean
+    }
+
+    export interface FriendReadReceipt extends Event {
+        "friend": number,
+        "message_id": number
     }
 }
 

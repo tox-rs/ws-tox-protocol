@@ -38,7 +38,12 @@ pub enum Event {
     ConnectionStatus { status: ConnectionStatus },
     FriendRequest { public_key: [u8; 32], message: String },
     FriendMessage { friend: u32, kind: MessageType, message: String },
+    FriendName { friend: u32, name: String },
+    FriendStatusMessage { friend: u32, status: String },
+    FriendStatus { friend: u32, status: UserStatus },
     FriendConnectionStatus { friend: u32, status: ConnectionStatus },
+    FriendTyping { friend: u32, is_typing: bool },
+    FriendReadReceipt { friend: u32, message_id: u32 },
 }
 
 impl Event {
@@ -60,10 +65,30 @@ impl Event {
                     kind: kind.into(),
                     message: msg.clone(),
                 },
+            E::FriendName(friend, ref name) =>
+                Event::FriendName {
+                    friend,
+                    name: name.clone()
+                },
+            E::FriendStatusMessage(friend, ref status) =>
+                Event::FriendStatusMessage {
+                    friend,
+                    status: status.clone()
+                },
             E::FriendConnectionStatus(friend, status) =>
                 Event::FriendConnectionStatus {
                     friend,
                     status: status.into(),
+                },
+            E::FriendTyping(friend, is_typing) =>
+                Event::FriendTyping {
+                    friend,
+                    is_typing,
+                },
+            E::FriendReadReceipt { friend, message_id } =>
+                Event::FriendReadReceipt {
+                    friend,
+                    message_id,
                 },
             _ => return None,
         })
