@@ -21,6 +21,9 @@ pub enum Request {
 #[serde(tag = "response")]
 pub enum Response {
     Ok,
+    MessageSent {
+        message_id: u32,
+    },
     Info {
         tox_id: String,
         name: String,
