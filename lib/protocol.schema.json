@@ -121,6 +121,39 @@
                     },
                     "required": [ "event", "friend", "kind", "message" ]
                 },
+                "FriendName": {
+                    "type": "object",
+                    "properties": {
+                        "event": { "enum": ["FriendName"] },
+                        "friend": { "type": "number" },
+                        "name": {"type": "string" }
+                    },
+                    "required": [ "event", "friend", "name" ]
+                },
+                "FriendStatusMessage": {
+                    "type": "object",
+                    "properties": {
+                        "event": { "enum": ["FriendStatusMessage"] },
+                        "friend": { "type": "number" },
+                        "status": {"type": "string" }
+                    },
+                    "required": [ "event", "friend", "status" ]
+                },
+                "FriendStatus": {
+                    "type": "object",
+                    "properties": {
+                        "event": { "enum": ["FriendStatus"] },
+                        "friend": { "type": "number" },
+                        "status": {
+                            "enum": [
+                                "None",
+                                "Away",
+                                "Busy"
+                            ]
+                        }
+                    },
+                    "required": [ "event", "friend", "status" ]
+                },
                 "FriendConnectionStatus": {
                     "type": "object",
                     "properties": {
@@ -135,13 +168,36 @@
                         }
                     },
                     "required": [ "event", "friend", "status" ]
+                },
+                "FriendTyping": {
+                    "type": "object",
+                    "properties": {
+                        "event": { "enum": ["FriendTyping"] },
+                        "friend": { "type": "number" },
+                        "is_typing": { "type": "boolean" }
+                    },
+                    "required": [ "event", "friend", "is_typing" ]
+                },
+                "FriendReadReceipt": {
+                    "type": "object",
+                    "properties": {
+                        "event": { "enum": ["FriendReadReceipt"] },
+                        "friend": { "type": "number" },
+                        "message_id": { "type": "number" }
+                    },
+                    "required": [ "event", "friend", "message_id" ]
                 }
             },
             "oneOf": [
                 { "$ref": "#/definitions/Event/definitions/ConnectionStatus" },
                 { "$ref": "#/definitions/Event/definitions/FriendRequest" },
                 { "$ref": "#/definitions/Event/definitions/FriendMessage" },
-                { "$ref": "#/definitions/Event/definitions/FriendConnectionStatus" }
+                { "$ref": "#/definitions/Event/definitions/FriendName" },
+                { "$ref": "#/definitions/Event/definitions/FriendStatusMessage" },
+                { "$ref": "#/definitions/Event/definitions/FriendStatus" },
+                { "$ref": "#/definitions/Event/definitions/FriendConnectionStatus" },
+                { "$ref": "#/definitions/Event/definitions/FriendTyping" },
+                { "$ref": "#/definitions/Event/definitions/FriendReadReceipt" }
             ]
         },
         "Friend": {
