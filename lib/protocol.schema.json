@@ -194,6 +194,66 @@
                         "message_id": { "type": "number" }
                     },
                     "required": [ "event", "friend", "message_id" ]
+                },
+                "ConferenceInvite": {
+                    "type": "object",
+                    "properties": {
+                        "event": { "enum": ["ConferenceInvite"] },
+                        "friend": { "type": "number" },
+                        "kind": { "enum": ["Text", "Av"] },
+                        "cookie": {
+                            "type": "string",
+                            "contentEncoding": "base64"
+                        }
+                    },
+                    "required": [ "event", "friend", "kind", "cookie" ]
+                },
+                "ConferenceConnected": {
+                    "type": "object",
+                    "properties": {
+                        "event": { "enum": ["ConferenceConnected"] },
+                        "conference": { "type": "number" }
+                    },
+                    "required": [ "event", "conference" ]
+                },
+                "ConferenceMessage": {
+                    "type": "object",
+                    "properties": {
+                        "event": { "enum": ["ConferenceMessage"] },
+                        "conference": { "type": "number" },
+                        "peer": { "type": "number" },
+                        "kind": { "enum": ["Normal", "Action"] },
+                        "message": { "type": "string" }
+                    },
+                    "required": [ "event", "conference", "peer", "kind", "message" ]
+                },
+                "ConferenceTitle": {
+                    "type": "object",
+                    "properties": {
+                        "event": { "enum": ["ConferenceTitle"] },
+                        "conference": { "type": "number" },
+                        "peer": { "type": "number" },
+                        "title": { "type": "string" }
+                    },
+                    "required": [ "event", "conference", "peer", "title" ]
+                },
+                "ConferencePeerName": {
+                    "type": "object",
+                    "properties": {
+                        "event": { "enum": ["ConferencePeerName"] },
+                        "conference": { "type": "number" },
+                        "peer": { "type": "number" },
+                        "name": { "type": "string" }
+                    },
+                    "required": [ "event", "conference", "peer", "name" ]
+                },
+                "ConferencePeerListChanged": {
+                    "type": "object",
+                    "properties": {
+                        "event": { "enum": ["ConferencePeerListChanged"] },
+                        "conference": { "type": "number" }
+                    },
+                    "required": [ "event", "conference" ]
                 }
             },
             "oneOf": [
@@ -205,7 +265,13 @@
                 { "$ref": "#/definitions/Event/definitions/FriendStatus" },
                 { "$ref": "#/definitions/Event/definitions/FriendConnectionStatus" },
                 { "$ref": "#/definitions/Event/definitions/FriendTyping" },
-                { "$ref": "#/definitions/Event/definitions/FriendReadReceipt" }
+                { "$ref": "#/definitions/Event/definitions/FriendReadReceipt" },
+                { "$ref": "#/definitions/Event/definitions/ConferenceInvite" },
+                { "$ref": "#/definitions/Event/definitions/ConferenceConnected" },
+                { "$ref": "#/definitions/Event/definitions/ConferenceMessage" },
+                { "$ref": "#/definitions/Event/definitions/ConferenceTitle" },
+                { "$ref": "#/definitions/Event/definitions/ConferencePeerName" },
+                { "$ref": "#/definitions/Event/definitions/ConferencePeerListChanged" }
             ]
         },
         "Friend": {
