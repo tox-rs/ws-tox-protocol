@@ -122,16 +122,19 @@ export namespace Events {
     }
 
     export interface FriendName extends Event {
+        "event": "FriendName",
         "friend": number,
         "name": string
     }
 
     export interface FriendStatusMessage extends Event {
+        "event": "FriendStatusMessage",
         "friend": number,
         "status": string
     }
 
     export interface FriendStatus extends Event {
+        "event": "FriendStatus",
         "friend": number,
         "status": UserStatus
     }
@@ -143,11 +146,13 @@ export namespace Events {
     }
 
     export interface FriendTyping extends Event {
+        "event": "FriendTyping",
         "friend": number,
         "is_typing": boolean
     }
 
     export interface FriendReadReceipt extends Event {
+        "event": "FriendReadReceipt",
         "friend": number,
         "message_id": number
     }
