@@ -1,6 +1,10 @@
 use serde::{Serialize, Deserialize};
+use base64::STANDARD;
+use base64_serde::base64_serde_type;
 
 use std::convert::TryFrom;
+
+base64_serde_type!(Base64, STANDARD);
 
 #[derive(Serialize, Deserialize, Clone, Debug)]
 pub enum ServerMessage {
@@ -47,6 +51,35 @@ pub enum Event {
     FriendConnectionStatus { friend: u32, status: ConnectionStatus },
     FriendTyping { friend: u32, is_typing: bool },
     FriendReadReceipt { friend: u32, message_id: u32 },
+
+    ConferenceInvite {
+        friend: u32,
+        kind: ConferenceType,
+        #[serde(with = "Base64")]
+        cookie: Vec<u8>,
+    },
+    ConferenceConnected {
+        conference: u32
+    },
+    ConferenceMessage {
+        conference: u32,
+        peer: u32,
+        kind: MessageType,
+        message: String,
+    },
+    ConferenceTitle {
+        conference: u32,
+        peer: u32,
+        title: String,
+    },
+    ConferencePeerName {
+        conference: u32,
+        peer: u32,
+        name: String,
+    },
+    ConferencePeerListChanged {
+        conference: u32
+    },
 }
 
 impl Event {
@@ -92,6 +125,40 @@ impl Event {
                 Event::FriendReadReceipt {
                     friend,
                     message_id,
+                },
+
+            E::ConferenceInvite { friend, kind, ref cookie } =>
+                Event::ConferenceInvite {
+                    friend,
+                    kind: kind.into(),
+                    cookie: cookie.clone().into_bytes(),
+                },
+            E::ConferenceConnected { conference } =>
+                Event::ConferenceConnected {
+                    conference
+                },
+            E::ConferenceMessage { conference, peer, kind, ref message } =>
+                Event::ConferenceMessage {
+                    conference,
+                    peer,
+                    kind: kind.into(),
+                    message: message.clone()
+                },
+            E::ConferenceTitle { conference, peer, ref title } =>
+                Event::ConferenceTitle {
+                    conference,
+                    peer,
+                    title: title.clone()
+                },
+            E::ConferencePeerName { conference, peer, ref name } =>
+                Event::ConferencePeerName {
+                    conference,
+                    peer,
+                    name: name.clone()
+                },
+            E::ConferencePeerListChanged { conference } =>
+                Event::ConferencePeerListChanged {
+                    conference
                 },
             _ => return None,
         })
@@ -174,6 +241,37 @@ impl From<MessageType> for rstox::core::MessageType {
         match ty {
             MessageType::Normal => M::Normal,
             MessageType::Action => M::Action,
+        }
+    }
+}
+
+#[derive(Serialize, Deserialize, Clone, Copy, Debug)]
+pub enum ConferenceType {
+    Text,
+    Av,
+}
+
+#[cfg(not(target_arch = "wasm32"))]
+impl From<rstox::core::ConferenceType> for ConferenceType {
+    fn from(ty: rstox::core::ConferenceType) -> ConferenceType {
+        use rstox::core::ConferenceType as C;
+
+        match ty {
+            C::Text => ConferenceType::Text,
+            C::Av => ConferenceType::Av,
+        }
+    }
+}
+
+
+#[cfg(not(target_arch = "wasm32"))]
+impl From<ConferenceType> for rstox::core::ConferenceType {
+    fn from(ty: ConferenceType) -> rstox::core::ConferenceType {
+        use rstox::core::ConferenceType as C;
+
+        match ty {
+            ConferenceType::Text => C::Text,
+            ConferenceType::Av => C::Av,
         }
     }
 }

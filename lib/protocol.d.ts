@@ -26,6 +26,7 @@ export type ToxEvent =
 export type ConnectionStatus = "None" | "Tcp" | "Udp";
 export type UserStatus = "None" | "Away" | "Busy";
 export type MessageType = "Normal" | "Action";
+export type ConferenceType = "Text" | "Av";
 
 export interface Friend {
     "number": number,
@@ -156,6 +157,46 @@ export namespace Events {
         "friend": number,
         "message_id": number
     }
+
+    export interface ConferenceInvite extends Event {
+        "event": "ConferenceInvite",
+        "friend": number,
+        "kind": ConferenceType,
+        "cookie": string,
+    }
+
+    export interface ConferenceConnected extends Event {
+        "event": "ConferenceConnected",
+        "conference": number
+    }
+
+    export interface ConferenceMessage extends Event {
+        "event": "ConferenceMessage",
+        "conference": number,
+        "peer": number,
+        "kind": MessageType,
+        "message": string,
+    }
+
+    export interface ConferenceTitle extends Event {
+        "event": "ConferenceTitle",
+        "conference": number,
+        "peer": number,
+        "title": string,
+    }
+
+    export interface ConferencePeerName extends Event {
+        "event": "ConferencePeerName",
+        "conference": number,
+        "peer": number,
+        "name": string,
+    }
+
+    export interface ConferencePeerListChanged extends Event {
+        "event": "ConferencePeerListChanged",
+        "conference": number
+    }
+
 }
 
 export namespace Errors {

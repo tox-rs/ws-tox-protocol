@@ -7,8 +7,8 @@ edition = "2018"
 [dependencies]
 serde = { version = "*", features = ["derive"] }
 serde_json = "*"
-# wasm-typescript-definition = { git = "https://github.com/tcr/wasm-typescript-definition.git" }
-# wasm-bindgen = "*"
+base64 = "0.10"
+base64-serde = "0.3"
 
 [target.'cfg(not(target_arch = "wasm32"))'.dependencies]
 rstox = { git = "https://github.com/tox-rs/rstox.git" }
