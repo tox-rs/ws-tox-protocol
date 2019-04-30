@@ -68,10 +68,10 @@
                     },
                     "required": [ "response", "error" ]
                 },
-                "SendFriendMessage": {
+                "SendFriendMessageError": {
                     "type": "object",
                     "properties": {
-                        "response": { "enum": ["SendFriendMessage"] },
+                        "response": { "enum": ["SendFriendMessageError"] },
                         "error": {
                             "enum": [
                                 "NotFound",
@@ -82,13 +82,92 @@
                         }
                     },
                     "required": [ "response", "error" ]
+                },
+                "ConferenceInviteError": {
+                    "type": "object",
+                    "properties": {
+                        "response": { "enum": ["ConferenceInviteError"] },
+                        "error": {
+                            "enum": [
+                                "ConferenceNotFound",
+                                "FailSend",
+                                "NoConnection"
+                            ]
+                        }
+                    },
+                    "required": [ "response", "error" ]
+                },
+                "ConferenceJoinError": {
+                    "type": "object",
+                    "properties": {
+                        "response": { "enum": ["ConferenceJoinError"] },
+                        "error": {
+                            "enum": [
+                                "InvalidLength",
+                                "WrongType",
+                                "FriendNotFound",
+                                "Duplicate",
+                                "InitFail",
+                                "FailSend"
+                            ]
+                        }
+                    },
+                    "required": [ "response", "error" ]
+                },
+                "ConferencePeerQueryError": {
+                    "type": "object",
+                    "properties": {
+                        "response": { "enum": ["ConferencePeerQueryError"] },
+                        "error": {
+                            "enum": [
+                                "ConferenceNotFound",
+                                "PeerNotFound",
+                                "PeerQueryNoConnection"
+                            ]
+                        }
+                    },
+                    "required": [ "response", "error" ]
+                },
+                "ConferenceSendError": {
+                    "type": "object",
+                    "properties": {
+                        "response": { "enum": ["ConferenceSendError"] },
+                        "error": {
+                            "enum": [
+                                "ConferenceNotFound",
+                                "TooLong",
+                                "NoConnection",
+                                "FailSend"
+                            ]
+                        }
+                    },
+                    "required": [ "response", "error" ]
+                },
+                "ConferenceTitleError": {
+                    "type": "object",
+                    "properties": {
+                        "response": { "enum": ["ConferenceTitleError"] },
+                        "error": {
+                            "enum": [
+                                "ConferenceNotFound",
+                                "InvalidLength",
+                                "FailSend"
+                            ]
+                        }
+                    },
+                    "required": [ "response", "error" ]
                 }
             },
             "oneOf": [
                 { "$ref": "#/definitions/Response/definitions/Ok" },
                 { "$ref": "#/definitions/Response/definitions/Info" },
                 { "$ref": "#/definitions/Response/definitions/AddFriendError" },
-                { "$ref": "#/definitions/Response/definitions/SendFriendMessage" }
+                { "$ref": "#/definitions/Response/definitions/SendFriendMessageError" },
+                { "$ref": "#/definitions/Response/definitions/ConferenceInviteError" },
+                { "$ref": "#/definitions/Response/definitions/ConferenceJoinError" },
+                { "$ref": "#/definitions/Response/definitions/ConferencePeerQueryError" },
+                { "$ref": "#/definitions/Response/definitions/ConferenceSendError" },
+                { "$ref": "#/definitions/Response/definitions/ConferenceTitleError" }
             ]
         },
         "Event": {

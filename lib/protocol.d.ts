@@ -23,7 +23,7 @@ export type ToxResponse =
     Responses.Ok |
     Responses.Info |
     Responses.AddFriendError |
-    Responses.SendFriendMessage;
+    Responses.SendFriendMessageError;
 
 export type ToxEvent =
     Events.ConnectionStatus |
@@ -177,9 +177,30 @@ export namespace Responses {
         "error": Errors.AddFriendError
     }
 
-    export interface SendFriendMessage extends Response {
+    export interface SendFriendMessageError extends Response {
         "response": "SendFriendMessageError",
         "error": Errors.SendFriendMessageError
+    }
+
+    export interface ConferenceInviteError extends Response {
+        "response": "ConferenceInviteError",
+        "error": Errors.ConferenceInviteError
+    }
+    export interface ConferenceJoinError extends Response {
+        "response": "ConferenceJoinError",
+        "error": Errors.ConferenceJoinError
+    }
+    export interface ConferencePeerQueryError extends Response {
+        "response": "ConferencePeerQueryError",
+        "error": Errors.ConferencePeerQueryError
+    }
+    export interface ConferenceSendError extends Response {
+        "response": "ConferenceSendError",
+        "error": Errors.ConferenceSendError
+    }
+    export interface ConferenceTitleError extends Response {
+        "response": "ConferenceTitleError",
+        "error": Errors.ConferenceTitleError
     }
 }
 
@@ -280,7 +301,6 @@ export namespace Events {
         "event": "ConferencePeerListChanged",
         "conference": number
     }
-
 }
 
 export namespace Errors {
@@ -297,4 +317,33 @@ export namespace Errors {
         "NotConnected" |
         "TooLong" |
         "Empty";
+
+    export type ConferenceInviteError =
+        "ConferenceNotFound" |
+        "FailSend" |
+        "NoConnection";
+
+    export type ConferenceJoinError =
+        "InvalidLength" |
+        "WrongType" |
+        "FriendNotFound" |
+        "Duplicate" |
+        "InitFail" |
+        "FailSend";
+
+    export type ConferencePeerQueryError =
+        "ConferenceNotFound" |
+        "PeerNotFound" |
+        "PeerQueryNoConnection";
+
+    export type ConferenceSendError =
+        "ConferenceNotFound" |
+        "TooLong" |
+        "NoConnection" |
+        "FailSend";
+
+    export type ConferenceTitleError =
+        "ConferenceNotFound" |
+        "InvalidLength" |
+        "FailSend";
 }
