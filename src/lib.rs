@@ -51,6 +51,11 @@ pub enum Response {
     },
     AddFriendError { error: AddFriendError },
     SendFriendMessageError { error: SendFriendMessageError },
+    ConferenceInviteError { error: ConferenceInviteError },
+    ConferenceJoinError { error: ConferenceJoinError },
+    ConferencePeerQueryError { error: ConferencePeerQueryError },
+    ConferenceSendError { error: ConferenceSendError },
+    ConferenceTitleError { error: ConferenceTitleError },
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug)]
@@ -339,6 +344,139 @@ impl TryFrom<rstox::core::errors::FriendSendMessageError> for SendFriendMessageE
             E::NotConnected => Ok(SendFriendMessageError::NotConnected),
             E::TooLong => Ok(SendFriendMessageError::TooLong),
             E::Empty => Ok(SendFriendMessageError::Empty),
+            _ => Err(())
+        }
+    }
+}
+
+#[derive(Serialize, Deserialize, Clone, Copy, Debug)]
+pub enum ConferenceInviteError {
+    ConferenceNotFound,
+    FailSend,
+    NoConnection
+}
+
+#[cfg(not(target_arch = "wasm32"))]
+impl TryFrom<rstox::core::errors::ConferenceInviteError> for ConferenceInviteError {
+    type Error = ();
+
+    fn try_from(
+        error: rstox::core::errors::ConferenceInviteError
+    ) -> Result<ConferenceInviteError, ()> {
+        use rstox::core::errors::ConferenceInviteError as E;
+
+        match error {
+            E::ConferenceNotFound => Ok(ConferenceInviteError::ConferenceNotFound),
+            E::FailSend => Ok(ConferenceInviteError::FailSend),
+            E::NoConnection => Ok(ConferenceInviteError::NoConnection),
+            _ => Err(())
+        }
+    }
+}
+
+#[derive(Serialize, Deserialize, Clone, Copy, Debug)]
+pub enum ConferenceJoinError {
+    InvalidLength,
+    WrongType,
+    FriendNotFound,
+    Duplicate,
+    InitFail,
+    FailSend,
+}
+
+#[cfg(not(target_arch = "wasm32"))]
+impl TryFrom<rstox::core::errors::ConferenceJoinError> for ConferenceJoinError {
+    type Error = ();
+
+    fn try_from(
+        error: rstox::core::errors::ConferenceJoinError
+    ) -> Result<ConferenceJoinError, ()> {
+        use rstox::core::errors::ConferenceJoinError as E;
+
+        match error {
+            E::InvalidLength => Ok(ConferenceJoinError::InvalidLength),
+            E::WrongType => Ok(ConferenceJoinError::WrongType),
+            E::FriendNotFound => Ok(ConferenceJoinError::FriendNotFound),
+            E::Duplicate => Ok(ConferenceJoinError::Duplicate),
+            E::InitFail => Ok(ConferenceJoinError::InitFail),
+            E::FailSend => Ok(ConferenceJoinError::FailSend),
+            _ => Err(())
+        }
+    }
+}
+
+#[derive(Serialize, Deserialize, Clone, Copy, Debug)]
+pub enum ConferencePeerQueryError {
+    ConferenceNotFound,
+    PeerNotFound,
+    PeerQueryNoConnection,
+}
+
+#[cfg(not(target_arch = "wasm32"))]
+impl TryFrom<rstox::core::errors::ConferencePeerQueryError> for ConferencePeerQueryError {
+    type Error = ();
+
+    fn try_from(
+        error: rstox::core::errors::ConferencePeerQueryError
+    ) -> Result<ConferencePeerQueryError, ()> {
+        use rstox::core::errors::ConferencePeerQueryError as E;
+
+        match error {
+            E::ConferenceNotFound => Ok(ConferencePeerQueryError::ConferenceNotFound),
+            E::PeerNotFound => Ok(ConferencePeerQueryError::PeerNotFound),
+            E::PeerQueryNoConnection => Ok(ConferencePeerQueryError::PeerQueryNoConnection),
+            _ => Err(())
+        }
+    }
+}
+
+#[derive(Serialize, Deserialize, Clone, Copy, Debug)]
+pub enum ConferenceSendError {
+    ConferenceNotFound,
+    TooLong,
+    NoConnection,
+    FailSend,
+}
+
+#[cfg(not(target_arch = "wasm32"))]
+impl TryFrom<rstox::core::errors::ConferenceSendError> for ConferenceSendError {
+    type Error = ();
+
+    fn try_from(
+        error: rstox::core::errors::ConferenceSendError
+    ) -> Result<ConferenceSendError, ()> {
+        use rstox::core::errors::ConferenceSendError as E;
+
+        match error {
+            E::ConferenceNotFound => Ok(ConferenceSendError::ConferenceNotFound),
+            E::TooLong => Ok(ConferenceSendError::TooLong),
+            E::NoConnection => Ok(ConferenceSendError::NoConnection),
+            E::FailSend => Ok(ConferenceSendError::FailSend),
+            _ => Err(())
+        }
+    }
+}
+
+#[derive(Serialize, Deserialize, Clone, Copy, Debug)]
+pub enum ConferenceTitleError {
+    ConferenceNotFound,
+    InvalidLength,
+    FailSend,
+}
+
+#[cfg(not(target_arch = "wasm32"))]
+impl TryFrom<rstox::core::errors::ConferenceTitleError> for ConferenceTitleError {
+    type Error = ();
+
+    fn try_from(
+        error: rstox::core::errors::ConferenceTitleError
+    ) -> Result<ConferenceTitleError, ()> {
+        use rstox::core::errors::ConferenceTitleError as E;
+
+        match error {
+            E::ConferenceNotFound => Ok(ConferenceTitleError::ConferenceNotFound),
+            E::InvalidLength => Ok(ConferenceTitleError::InvalidLength),
+            E::FailSend => Ok(ConferenceTitleError::FailSend),
             _ => Err(())
         }
     }
