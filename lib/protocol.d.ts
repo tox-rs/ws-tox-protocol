@@ -4,7 +4,20 @@ export type ToxRequest =
     Requests.Info |
     Requests.AddFriend |
     Requests.AddFriendNorequest |
-    Requests.SendFriendMessage;
+    Requests.SendFriendMessage |
+    Requests.NewConference |
+    Requests.DeleteConference |
+    Requests.ConferencePeerCount |
+    Requests.GetPeerName |
+    Requests.GetPeerPublicKey |
+    Requests.IsOwnPeerNumber |
+    Requests.InviteToConference |
+    Requests.JoinConference |
+    Requests.SendConferenceMessage |
+    Requests.GetConferenceTitle |
+    Requests.SetConferenceTitle |
+    Requests.GetChatList |
+    Requests.GetConferenceType;
 
 export type ToxResponse =
     Responses.Ok |
@@ -62,6 +75,77 @@ export namespace Requests {
         "friend": number,
         "kind": MessageType,
         "message": string
+    }
+
+    export interface NewConference extends Request {
+        "request": "NewConference",
+    }
+
+    export interface DeleteConference extends Request {
+        "request": "DeleteConference",
+        "conference": number,
+    }
+
+    export interface ConferencePeerCount extends Request {
+        "request": "ConferencePeerCount",
+        "conference": number,
+    }
+
+    export interface GetPeerName extends Request {
+        "request": "GetPeerName",
+        "conference": number,
+        "peer": number,
+    }
+
+    export interface GetPeerPublicKey extends Request {
+        "request": "GetPeerPublicKey",
+        "conference": number,
+        "peer": number,
+    }
+
+    export interface IsOwnPeerNumber extends Request {
+        "request": "IsOwnPeerNumber",
+        "conference": number,
+        "peer_number": number,
+    }
+
+    export interface InviteToConference extends Request {
+        "request": "InviteToConference",
+        "friend": number,
+        "conference": number,
+    }
+
+    export interface JoinConference extends Request {
+        "request": "JoinConference",
+        "friend": number,
+        "cookie": string,
+    }
+
+    export interface SendConferenceMessage extends Request {
+        "request": "SendConferenceMessage",
+        "conference": number,
+        "kind": MessageType,
+        "message": string,
+    }
+
+    export interface GetConferenceTitle extends Request {
+        "request": "GetConferenceTitle",
+        "conference": number,
+    }
+
+    export interface SetConferenceTitle extends Request {
+        "request": "SetConferenceTitle",
+        "conference": number,
+        "title": string,
+    }
+
+    export interface GetChatList extends Request {
+        "request": "GetChatList",
+    }
+
+    export interface GetConferenceType extends Request {
+        "request": "GetConferenceType",
+        "conference": number,
     }
 }
 
