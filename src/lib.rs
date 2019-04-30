@@ -19,6 +19,20 @@ pub enum Request {
     AddFriend { tox_id: String, message: String },
     AddFriendNorequest { tox_id: String },
     SendFriendMessage { friend: u32, kind: MessageType, message: String },
+
+    NewConference,
+    DeleteConference { conference: u32 },
+    ConferencePeerCount { conference: u32, },
+    GetPeerName { conference: u32, peer: u32 },
+    GetPeerPublicKey { conference: u32, peer: u32 },
+    IsOwnPeerNumber { conference: u32, peer_number: u32 },
+    InviteToConference { friend: u32, conference: u32 },
+    JoinConference { friend: u32, cookie: Vec<u8> },
+    SendConferenceMessage { conference: u32, kind: MessageType, message: String },
+    GetConferenceTitle { conference: u32, },
+    SetConferenceTitle { conference: u32, title: String },
+    GetChatList,
+    GetConferenceType { conference: u32 },
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug)]
