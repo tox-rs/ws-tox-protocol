@@ -5,6 +5,7 @@ export type ToxRequest =
     Requests.AddFriend |
     Requests.AddFriendNorequest |
     Requests.SendFriendMessage |
+
     Requests.NewConference |
     Requests.DeleteConference |
     Requests.ConferencePeerCount |
@@ -22,6 +23,21 @@ export type ToxRequest =
 export type ToxResponse =
     Responses.Ok |
     Responses.Info |
+
+    Responses.Conference |
+    Responses.ConferencePeerCount |
+    Responses.ConferencePeerName |
+    Responses.ConferencePeerPublicKey |
+    Responses.IsOwnPeerNumber |
+    Responses.ConferenceTitle |
+    Responses.ChatList |
+    Responses.ConferenceType |
+
+    Responses.ConferenceInviteError |
+    Responses.ConferenceJoinError |
+    Responses.ConferencePeerQueryError |
+    Responses.ConferenceSendError |
+    Responses.ConferenceTitleError |
     Responses.AddFriendError |
     Responses.SendFriendMessageError;
 
@@ -172,6 +188,46 @@ export namespace Responses {
         "friends": Friend[],
     }
 
+    export interface Conference extends Response {
+        "response": "Conference",
+        "conference": number
+    }
+
+    export interface ConferencePeerCount extends Response {
+        "response": "ConferencePeerCount",
+        "count": number
+    }
+
+    export interface ConferencePeerName extends Response {
+        "response": "ConferencePeerName",
+        "name": string
+    }
+
+    export interface ConferencePeerPublicKey extends Response {
+        "response": "ConferencePeerPublicKey",
+        "public_key": string,
+    }
+
+    export interface IsOwnPeerNumber extends Response {
+        "response": "IsOwnPeerNumber",
+        "is_own": boolean,
+    }
+
+    export interface ConferenceTitle extends Response {
+        "response": "ConferenceTitle",
+        "title": string,
+    }
+
+    export interface ChatList extends Response {
+        "response": "ChatList",
+        "list": number[]
+    }
+
+    export interface ConferenceType extends Response {
+        "response": "ConferenceType",
+        "kind": ConferenceType
+    }
+
     export interface AddFriendError extends Response {
         "response": "AddFriendError",
         "error": Errors.AddFriendError
@@ -186,18 +242,22 @@ export namespace Responses {
         "response": "ConferenceInviteError",
         "error": Errors.ConferenceInviteError
     }
+
     export interface ConferenceJoinError extends Response {
         "response": "ConferenceJoinError",
         "error": Errors.ConferenceJoinError
     }
+
     export interface ConferencePeerQueryError extends Response {
         "response": "ConferencePeerQueryError",
         "error": Errors.ConferencePeerQueryError
     }
+
     export interface ConferenceSendError extends Response {
         "response": "ConferenceSendError",
         "error": Errors.ConferenceSendError
     }
+
     export interface ConferenceTitleError extends Response {
         "response": "ConferenceTitleError",
         "error": Errors.ConferenceTitleError

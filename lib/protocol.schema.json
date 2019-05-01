@@ -51,6 +51,73 @@
                         "friends"
                     ]
                 },
+                "Conference": {
+                    "type": "object",
+                    "properties": {
+                        "response": { "enum": ["Conference"] },
+                        "conference": { "type": "number" }
+                    },
+                    "required": [ "response", "conference" ]
+                },
+                "ConferencePeerCount": {
+                    "type": "object",
+                    "properties": {
+                        "response": { "enum": ["ConferencePeerCount"] },
+                        "count": { "type": "number" }
+                    },
+                    "required": [ "response", "count" ]
+                },
+                "ConferencePeerName": {
+                    "type": "object",
+                    "properties": {
+                        "response": { "enum": ["ConferencePeerName"] },
+                        "name": { "type": "string" }
+                    },
+                    "required": [ "response", "name" ]
+                },
+                "ConferencePeerPublicKey": {
+                    "type": "object",
+                    "properties": {
+                        "response": { "enum": ["ConferencePeerPublicKey"] },
+                        "public_key": { "type": "string" }
+                    },
+                    "required": [ "response", "public_key" ]
+                },
+                "IsOwnPeerNumber": {
+                    "type": "object",
+                    "properties": {
+                        "response": { "enum": ["IsOwnPeerNumber"] },
+                        "is_own": { "type": "boolean" }
+                    },
+                    "required": [ "response", "is_own" ]
+                },
+                "ConferenceTitle": {
+                    "type": "object",
+                    "properties": {
+                        "response": { "enum": ["ConferenceTitle"] },
+                        "title": { "type": "string" }
+                    },
+                    "required": [ "response", "title" ]
+                },
+                "ChatList": {
+                    "type": "object",
+                    "properties": {
+                        "response": { "enum": ["ChatList"] },
+                        "list": {
+                            "type": "array",
+                            "items": [{"type": "number"}]
+                        }
+                    },
+                    "required": [ "response", "items" ]
+                },
+                "ConferenceType": {
+                    "type": "object",
+                    "properties": {
+                        "response": { "enum": ["ConferenceType"] },
+                        "kind": { "enum": ["Text", "Av"] }
+                    },
+                    "required": [ "response", "kind" ]
+                },
                 "AddFriendError": {
                     "type": "object",
                     "properties": {
@@ -161,6 +228,14 @@
             "oneOf": [
                 { "$ref": "#/definitions/Response/definitions/Ok" },
                 { "$ref": "#/definitions/Response/definitions/Info" },
+                { "$ref": "#/definitions/Response/definitions/Conference" },
+                { "$ref": "#/definitions/Response/definitions/ConferencePeerCount" },
+                { "$ref": "#/definitions/Response/definitions/ConferencePeerName" },
+                { "$ref": "#/definitions/Response/definitions/ConferencePeerPublicKey" },
+                { "$ref": "#/definitions/Response/definitions/IsOwnPeerNumber" },
+                { "$ref": "#/definitions/Response/definitions/ConferenceTitle" },
+                { "$ref": "#/definitions/Response/definitions/ChatList" },
+                { "$ref": "#/definitions/Response/definitions/ConferenceType" },
                 { "$ref": "#/definitions/Response/definitions/AddFriendError" },
                 { "$ref": "#/definitions/Response/definitions/SendFriendMessageError" },
                 { "$ref": "#/definitions/Response/definitions/ConferenceInviteError" },

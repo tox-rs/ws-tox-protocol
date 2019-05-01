@@ -49,6 +49,16 @@ pub enum Response {
         status_message: String,
         friends: Vec<Friend>
     },
+
+    Conference { conference: u32 },
+    ConferencePeerCount { count: u32 },
+    ConferencePeerName { name: String },
+    ConferencePeerPublicKey { public_key: String },
+    IsOwnPeerNumber { is_own: bool, },
+    ConferenceTitle { title: String, },
+    ChatList { list: Vec<u32> },
+    ConferenceType { kind: ConferenceType },
+
     AddFriendError { error: AddFriendError },
     SendFriendMessageError { error: SendFriendMessageError },
     ConferenceInviteError { error: ConferenceInviteError },
