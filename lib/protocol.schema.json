@@ -51,6 +51,86 @@
                         "friends"
                     ]
                 },
+                "ConnectionStatus": {
+                    "type": "object",
+                    "properties": {
+                        "response": { "enum": ["ConnectionStatus"] },
+                        "status": { "enum": [ "None", "Tcp", "Udp" ] }
+                    },
+                    "required": [ "response", "status" ]
+                },
+                "Address": {
+                    "type": "object",
+                    "properties": {
+                        "response": { "enum": ["Address"] },
+                        "address": { "type": "string" }
+                    },
+                    "required": [ "response", "address" ]
+                },
+                "Nospam": {
+                    "type": "object",
+                    "properties": {
+                        "response": { "enum": ["Nospam"] },
+                        "nospam": { "type": "string" }
+                    },
+                    "required": [ "response", "nospam" ]
+                },
+                "PublicKey": {
+                    "type": "object",
+                    "properties": {
+                        "response": { "enum": ["PublicKey"] },
+                        "public_key": { "type": "string" }
+                    },
+                    "required": [ "response", "public_key" ]
+                },
+                "Name": {
+                    "type": "object",
+                    "properties": {
+                        "response": { "enum": ["Name"] },
+                        "name": { "type": "string" }
+                    },
+                    "required": [ "response", "name" ]
+                },
+                "StatusMessage": {
+                    "type": "object",
+                    "properties": {
+                        "response": { "enum": ["StatusMessage"] },
+                        "status": { "type": "string" }
+                    },
+                    "required": [ "response", "status" ]
+                },
+                "Status": {
+                    "type": "object",
+                    "properties": {
+                        "response": { "enum": ["Status"] },
+                        "status": { "enum": [ "None", "Away", "Busy" ] }
+                    },
+                    "required": [ "response", "status" ]
+                },
+                "Friend": {
+                    "type": "object",
+                    "properties": {
+                        "response": { "enum": ["Friend"] },
+                        "friend": { "type": "number" }
+                    },
+                    "required": [ "response", "friend" ]
+                },
+                "FriendExists": {
+                    "type": "object",
+                    "properties": {
+                        "response": { "enum": ["FriendExists"] },
+                        "exists": { "type": "boolean" }
+                    },
+                    "required": [ "response", "exists" ]
+                },
+                "LastOnline": {
+                    "type": "object",
+                    "properties": {
+                        "response": { "enum": ["LastOnline"] },
+                        "last_online": { "type": "number" }
+                    },
+                    "required": [ "response", "last_online" ]
+                },
                 "Conference": {
                     "type": "object",
                     "properties": {
@@ -228,6 +308,16 @@
             "oneOf": [
                 { "$ref": "#/definitions/Response/definitions/Ok" },
                 { "$ref": "#/definitions/Response/definitions/Info" },
+                { "$ref": "#/definitions/Response/definitions/ConnectionStatus" },
+                { "$ref": "#/definitions/Response/definitions/Address" },
+                { "$ref": "#/definitions/Response/definitions/Nospam" },
+                { "$ref": "#/definitions/Response/definitions/PublicKey" },
+                { "$ref": "#/definitions/Response/definitions/Name" },
+                { "$ref": "#/definitions/Response/definitions/StatusMessage" },
+                { "$ref": "#/definitions/Response/definitions/Status" },
+                { "$ref": "#/definitions/Response/definitions/Friend" },
+                { "$ref": "#/definitions/Response/definitions/FriendExists" },
+                { "$ref": "#/definitions/Response/definitions/LastOnline" },
                 { "$ref": "#/definitions/Response/definitions/Conference" },
                 { "$ref": "#/definitions/Response/definitions/ConferencePeerCount" },
                 { "$ref": "#/definitions/Response/definitions/ConferencePeerName" },

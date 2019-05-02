@@ -6,6 +6,26 @@ export type ToxRequest =
     Requests.AddFriendNorequest |
     Requests.SendFriendMessage |
 
+    Requests.GetConnectionStatus |
+    Requests.GetAddress |
+    Requests.GetNospam |
+    Requests.SetNospam |
+    Requests.GetPublicKey |
+    Requests.SetName |
+    Requests.GetName |
+    Requests.SetStatusMessage |
+    Requests.GetStatusMessage |
+    Requests.SetStatus |
+    Requests.GetStatus |
+    Requests.FriendByPublicKey |
+    Requests.FriendExists |
+    Requests.GetFriendPublicKey |
+    Requests.GetFriendLastOnline |
+    Requests.GetFriendName |
+    Requests.GetFriendStatusMessage |
+    Requests.GetFriendStatus |
+    Requests.GetFriendConnectionStatus |
+
     Requests.NewConference |
     Requests.DeleteConference |
     Requests.ConferencePeerCount |
@@ -23,6 +43,17 @@ export type ToxRequest =
 export type ToxResponse =
     Responses.Ok |
     Responses.Info |
+
+    Responses.ConnectionStatus |
+    Responses.Address |
+    Responses.Nospam |
+    Responses.PublicKey |
+    Responses.Name |
+    Responses.StatusMessage |
+    Responses.Status |
+    Responses.Friend |
+    Responses.FriendExists |
+    Responses.LastOnline |
 
     Responses.Conference |
     Responses.ConferencePeerCount |
@@ -73,6 +104,94 @@ export namespace Requests {
 
     export interface Info extends Request {
         "request": "Info",
+    }
+
+    interface GetConnectionStatus extends Request {
+        "request": "GetConnectionStatus"
+    }
+
+    interface GetAddress extends Request {
+        "request": "GetAddress"
+    }
+
+    interface GetNospam extends Request {
+        "request": "GetNospam"
+    }
+
+    interface SetNospam extends Request {
+        "request": "SetNospam"
+        "nospam": string
+    }
+
+    interface GetPublicKey extends Request {
+        "request": "GetPublicKey"
+    }
+
+    interface SetName extends Request {
+        "request": "SetName"
+        "name": string
+    }
+
+    interface GetName extends Request {
+        "request": "GetName"
+    }
+
+    interface SetStatusMessage extends Request {
+        "request": "SetStatusMessage"
+        "message": string
+    }
+
+    interface GetStatusMessage extends Request {
+        "request": "GetStatusMessage"
+    }
+
+    interface SetStatus extends Request {
+        "request": "SetStatus"
+        "status": UserStatus
+    }
+
+    interface GetStatus extends Request {
+        "request": "GetStatus"
+    }
+
+    interface FriendByPublicKey extends Request {
+        "request": "FriendByPublicKey"
+        "public_key": string
+    }
+
+    interface FriendExists extends Request {
+        "request": "FriendExists"
+        "friend": number
+    }
+
+    interface GetFriendPublicKey extends Request {
+        "request": "GetFriendPublicKey"
+        "friend": number
+    }
+
+    interface GetFriendLastOnline extends Request {
+        "request": "GetFriendLastOnline"
+        "friend": number
+    }
+
+    interface GetFriendName extends Request {
+        "request": "GetFriendName"
+        "friend": number
+    }
+
+    interface GetFriendStatusMessage extends Request {
+        "request": "GetFriendStatusMessage"
+        "friend": number
+    }
+
+    interface GetFriendStatus extends Request {
+        "request": "GetFriendStatus"
+        "friend": number
+    }
+
+    interface GetFriendConnectionStatus extends Request {
+        "request": "GetFriendConnectionStatus"
+        "friend": number
     }
 
     export interface AddFriend extends Request {
@@ -186,6 +305,56 @@ export namespace Responses {
         "status": UserStatus,
         "status_message": string
         "friends": Friend[],
+    }
+
+    interface ConnectionStatus extends Response {
+        "response": "ConnectionStatus"
+        "status": ConnectionStatus
+    }
+
+    interface Address extends Response {
+        "response": "Address"
+        "address": string
+    }
+
+    interface Nospam extends Response {
+        "response": "Nospam"
+        "nospam": string
+    }
+
+    interface PublicKey extends Response {
+        "response": "PublicKey"
+        "public_key": string
+    }
+
+    interface Name extends Response {
+        "response": "Name"
+        "name": string
+    }
+
+    interface StatusMessage extends Response {
+        "response": "StatusMessage"
+        "status": string
+    }
+
+    interface Status extends Response {
+        "response": "Status"
+        "status": UserStatus
+    }
+
+    interface Friend extends Response {
+        "response": "Friend"
+        "friend": number
+    }
+
+    interface FriendExists extends Response {
+        "response": "FriendExists"
+        "exists": boolean
+    }
+
+    interface LastOnline extends Response {
+        "response": "LastOnline"
+        "last_online": number
     }
 
     export interface Conference extends Response {
