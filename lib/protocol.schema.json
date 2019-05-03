@@ -230,6 +230,13 @@
                     },
                     "required": [ "response", "error" ]
                 },
+                "FriendNotFoundError": {
+                    "type": "object",
+                    "properties": {
+                        "response": { "enum": ["FriendNotFoundError"] }
+                    },
+                    "required": [ "response" ]
+                },
                 "ConferenceInviteError": {
                     "type": "object",
                     "properties": {
@@ -328,6 +335,7 @@
                 { "$ref": "#/definitions/Response/definitions/ConferenceType" },
                 { "$ref": "#/definitions/Response/definitions/AddFriendError" },
                 { "$ref": "#/definitions/Response/definitions/SendFriendMessageError" },
+                { "$ref": "#/definitions/Response/definitions/FriendNotFoundError" },
                 { "$ref": "#/definitions/Response/definitions/ConferenceInviteError" },
                 { "$ref": "#/definitions/Response/definitions/ConferenceJoinError" },
                 { "$ref": "#/definitions/Response/definitions/ConferencePeerQueryError" },

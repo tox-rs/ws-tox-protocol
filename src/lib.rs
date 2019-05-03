@@ -92,6 +92,7 @@ pub enum Response {
 
     AddFriendError { error: AddFriendError },
     SendFriendMessageError { error: SendFriendMessageError },
+    FriendNotFoundError,
     ConferenceInviteError { error: ConferenceInviteError },
     ConferenceJoinError { error: ConferenceJoinError },
     ConferencePeerQueryError { error: ConferencePeerQueryError },
