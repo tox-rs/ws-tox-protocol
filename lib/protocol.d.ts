@@ -64,13 +64,14 @@ export type ToxResponse =
     Responses.ChatList |
     Responses.ConferenceType |
 
+    Responses.AddFriendError |
+    Responses.SendFriendMessageError |
+    Responses.FriendNotFoundError |
     Responses.ConferenceInviteError |
     Responses.ConferenceJoinError |
     Responses.ConferencePeerQueryError |
     Responses.ConferenceSendError |
-    Responses.ConferenceTitleError |
-    Responses.AddFriendError |
-    Responses.SendFriendMessageError;
+    Responses.ConferenceTitleError;
 
 export type ToxEvent =
     Events.ConnectionStatus |
@@ -307,52 +308,52 @@ export namespace Responses {
         "friends": Friend[],
     }
 
-    interface ConnectionStatus extends Response {
+    export interface ConnectionStatus extends Response {
         "response": "ConnectionStatus"
         "status": ConnectionStatus
     }
 
-    interface Address extends Response {
+    export interface Address extends Response {
         "response": "Address"
         "address": string
     }
 
-    interface Nospam extends Response {
+    export interface Nospam extends Response {
         "response": "Nospam"
         "nospam": string
     }
 
-    interface PublicKey extends Response {
+    export interface PublicKey extends Response {
         "response": "PublicKey"
         "public_key": string
     }
 
-    interface Name extends Response {
+    export interface Name extends Response {
         "response": "Name"
         "name": string
     }
 
-    interface StatusMessage extends Response {
+    export interface StatusMessage extends Response {
         "response": "StatusMessage"
         "status": string
     }
 
-    interface Status extends Response {
+    export interface Status extends Response {
         "response": "Status"
         "status": UserStatus
     }
 
-    interface Friend extends Response {
+    export interface Friend extends Response {
         "response": "Friend"
         "friend": number
     }
 
-    interface FriendExists extends Response {
+    export interface FriendExists extends Response {
         "response": "FriendExists"
         "exists": boolean
     }
 
-    interface LastOnline extends Response {
+    export interface LastOnline extends Response {
         "response": "LastOnline"
         "last_online": number
     }
@@ -405,6 +406,10 @@ export namespace Responses {
     export interface SendFriendMessageError extends Response {
         "response": "SendFriendMessageError",
         "error": Errors.SendFriendMessageError
+    }
+
+    export interface FriendNotFoundError extends Response {
+        "response": "FriendNotFoundError"
     }
 
     export interface ConferenceInviteError extends Response {
