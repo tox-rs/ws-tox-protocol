@@ -39,7 +39,7 @@
                         "status_message": { "type": "string" },
                         "friends": {
                             "type": "array",
-                            "items": { "$ref": "#/definitions/Friend" }
+                            "items": { "$ref": "#/definitions/FriendInfo" }
                         }
                     },
                     "required": [
@@ -526,7 +526,7 @@
                 { "$ref": "#/definitions/Event/definitions/ConferencePeerListChanged" }
             ]
         },
-        "Friend": {
+        "FriendInfo": {
             "type": "object",
             "properties": {
                 "number": { "type": "number" },

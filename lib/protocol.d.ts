@@ -89,7 +89,7 @@ export type UserStatus = "None" | "Away" | "Busy";
 export type MessageType = "Normal" | "Action";
 export type ConferenceType = "Text" | "Av";
 
-export interface Friend {
+export interface FriendInfo {
     "number": number,
     "public_key": string,
     "name": string,
@@ -305,7 +305,7 @@ export namespace Responses {
         "name": string,
         "status": UserStatus,
         "status_message": string
-        "friends": Friend[],
+        "friends": FriendInfo[],
     }
 
     export interface ConnectionStatus extends Response {
