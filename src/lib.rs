@@ -47,7 +47,11 @@ pub enum Request {
     GetPeerPublicKey { conference: u32, peer: u32 },
     IsOwnPeerNumber { conference: u32, peer_number: u32 },
     InviteToConference { friend: u32, conference: u32 },
-    JoinConference { friend: u32, cookie: Vec<u8> },
+    JoinConference {
+        friend: u32,
+        #[serde(with = "Base64")]
+        cookie: Vec<u8>
+    },
     SendConferenceMessage { conference: u32, kind: MessageType, message: String },
     GetConferenceTitle { conference: u32, },
     SetConferenceTitle { conference: u32, title: String },
@@ -112,6 +116,32 @@ pub enum Event {
     FriendConnectionStatus { friend: u32, status: ConnectionStatus },
     FriendTyping { friend: u32, is_typing: bool },
     FriendReadReceipt { friend: u32, message_id: u32 },
+
+    FileControlReceipt {
+        friend: u32,
+        file_number: u32,
+        control: FileControl
+    },
+    FileChunkRequest {
+        friend: u32,
+        file_number: u32,
+        position: usize,
+        length: usize
+    },
+    FileReceipt {
+        friend: u32,
+        file_number: u32,
+        kind: u32,
+        file_size: usize,
+        file_name: String
+    },
+    FileChunkReceipt {
+        friend: u32,
+        file_number: u32,
+        position: usize,
+        #[serde(with = "Base64")]
+        data: Vec<u8>
+    },
 
     ConferenceInvite {
         friend: u32,
@@ -302,6 +332,38 @@ impl From<MessageType> for rstox::core::MessageType {
         match ty {
             MessageType::Normal => M::Normal,
             MessageType::Action => M::Action,
+        }
+    }
+}
+
+#[derive(Serialize, Deserialize, Clone, Copy, Debug)]
+pub enum FileControl {
+    Resume,
+    Pause,
+    Cancel,
+}
+
+#[cfg(not(target_arch = "wasm32"))]
+impl From<FileControl> for rstox::core::FileControl {
+    fn from(ty: FileControl) -> rstox::core::FileControl {
+        use rstox::core::FileControl as C;
+
+        match ty {
+            FileControl::Resume => C::Resume,
+            FileControl::Pause => C::Pause,
+            FileControl::Cancel => C::Cancel,
+        }
+    }
+}
+
+impl From<rstox::core::FileControl> for FileControl {
+    fn from(ty: rstox::core::FileControl) -> FileControl {
+        use rstox::core::FileControl as C;
+
+        match ty {
+            C::Resume => FileControl::Resume,
+            C::Pause => FileControl::Pause,
+            C::Cancel => FileControl::Cancel,
         }
     }
 }

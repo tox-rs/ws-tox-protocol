@@ -82,12 +82,23 @@ export type ToxEvent =
     Events.FriendStatus |
     Events.FriendConnectionStatus |
     Events.FriendTyping |
-    Events.FriendReadReceipt;
+    Events.FriendReadReceipt |
+    Events.FileControlReceipt |
+    Events.FileChunkRequest |
+    Events.FileReceipt |
+    Events.FileChunkReceipt |
+    Events.ConferenceInvite |
+    Events.ConferenceConnected |
+    Events.ConferenceMessage |
+    Events.ConferenceTitle |
+    Events.ConferencePeerName |
+    Events.ConferencePeerListChanged;
 
 export type ConnectionStatus = "None" | "Tcp" | "Udp";
 export type UserStatus = "None" | "Away" | "Busy";
 export type MessageType = "Normal" | "Action";
 export type ConferenceType = "Text" | "Av";
+export type FileControl = "Resume" | "Pause" | "Cancel";
 
 export interface FriendInfo {
     "number": number,
@@ -495,6 +506,38 @@ export namespace Events {
         "event": "FriendReadReceipt",
         "friend": number,
         "message_id": number
+    }
+
+    export interface FileControlReceipt extends Event {
+        "event": "FileControlReceipt"
+        "friend": number
+        "file_number": number
+        "control": FileControl
+    }
+
+    export interface FileChunkRequest extends Event {
+        "event": "FileChunkRequest"
+        "friend": number
+        "file_number": number
+        "position": number
+        "length": number
+    }
+
+    export interface FileReceipt extends Event {
+        "event": "FileReceipt"
+        "friend": number
+        "file_number": number
+        "kind": number
+        "file_size": number
+        "file_name": string
+    }
+
+    export interface FileChunkReceipt extends Event {
+        "event": "FileChunkReceipt"
+        "friend": number
+        "file_number": number
+        "position": number
+        "data": string
     }
 
     export interface ConferenceInvite extends Event {
