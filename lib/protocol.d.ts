@@ -26,6 +26,12 @@ export type ToxRequest =
     Requests.GetFriendStatus |
     Requests.GetFriendConnectionStatus |
 
+    Requests.ControlFile |
+    Requests.SeekFile |
+    Requests.GetFileId |
+    Requests.SendFile |
+    Requests.SendFileChunk |
+
     Requests.NewConference |
     Requests.DeleteConference |
     Requests.ConferencePeerCount |
@@ -54,6 +60,14 @@ export type ToxResponse =
     Responses.Friend |
     Responses.FriendExists |
     Responses.LastOnline |
+
+    Responses.FileId |
+    Responses.FileNumber |
+    Responses.FileControlError |
+    Responses.FileSeekError |
+    Responses.FileGetError |
+    Responses.FileSendError |
+    Responses.FileSendChunkError |
 
     Responses.Conference |
     Responses.ConferencePeerCount |
@@ -99,6 +113,7 @@ export type UserStatus = "None" | "Away" | "Busy";
 export type MessageType = "Normal" | "Action";
 export type ConferenceType = "Text" | "Av";
 export type FileControl = "Resume" | "Pause" | "Cancel";
+export type FileKind = "Data" | "Avatar";
 
 export interface FriendInfo {
     "number": number,
@@ -222,6 +237,42 @@ export namespace Requests {
         "friend": number,
         "kind": MessageType,
         "message": string
+    }
+
+    export interface ControlFile extends Request {
+        "request": "ControlFile"
+        "friend": number
+        "file_number": number
+        "control": FileControl
+    }
+    
+    export interface SeekFile extends Request {
+        "request": "SeekFile"
+        "friend": number
+        "file_number": number
+        "position": number
+    }
+    
+    export interface GetFileId extends Request {
+        "request": "GetFileId"
+        "friend": number
+        "file_number": number
+    }
+    
+    export interface SendFile extends Request {
+        "request": "SendFile"
+        "friend": number
+        "kind": FileKind
+        "file_size": number
+        "file_name": string
+    }
+    
+    export interface SendFileChunk extends Request {
+        "request": "SendFileChunk"
+        "friend": number
+        "file_number": number
+        "position": number
+        "data": string
     }
 
     export interface NewConference extends Request {
@@ -367,6 +418,41 @@ export namespace Responses {
     export interface LastOnline extends Response {
         "response": "LastOnline"
         "last_online": number
+    }
+
+    export interface FileId extends Response {
+        "response": "FileId"
+        "id": string
+    }
+    
+    export interface FileNumber extends Response {
+        "response": "FileNumber"
+        "file_number": number
+    }
+    
+    export interface FileControlError extends Response {
+        "response": "FileControlError"
+        "error": FileControlError
+    }
+    
+    export interface FileSeekError extends Response {
+        "response": "FileSeekError"
+        "error": FileSeekError
+    }
+    
+    export interface FileGetError extends Response {
+        "response": "FileGetError"
+        "error": FileGetError
+    }
+    
+    export interface FileSendError extends Response {
+        "response": "FileSendError"
+        "error": FileSendError
+    }
+    
+    export interface FileSendChunkError extends Response {
+        "response": "FileSendChunkError"
+        "error": FileSendChunkError
     }
 
     export interface Conference extends Response {
