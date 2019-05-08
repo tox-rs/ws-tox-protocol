@@ -190,6 +190,98 @@
                     },
                     "required": [ "response", "items" ]
                 },
+                "FileId": {
+                    "type": "object",
+                    "properties": {
+                        "response": { "enum": ["FileId"] },
+                        "id": { "type": "string" }
+                    },
+                    "required": [ "response", "id" ]
+                },
+                "FileNumber": {
+                    "type": "object",
+                    "properties": {
+                        "response": { "enum": ["FileNumber"] },
+                        "file_number": { "type": "number" }
+                    },
+                    "required": [ "response", "file_number" ]
+                },
+                "FileControlError": {
+                    "type": "object",
+                    "properties": {
+                        "response": { "enum": ["FileControlError"] },
+                        "error": {
+                            "enum": [
+                                "FriendNotFound",
+                                "FriendNotConnected",
+                                "NotFound",
+                                "NotPaused",
+                                "Denied",
+                                "AlreadyPaused",
+                                "SendQ"
+                            ]
+                        }
+                    },
+                    "required": [ "response", "error" ]
+                },
+                "FileSeekError": {
+                    "type": "object",
+                    "properties": {
+                        "response": { "enum": ["FileSeekError"] },
+                        "error": {
+                            "enum": [
+                                "FriendNotFound",
+                                "FriendNotConnected",
+                                "NotFound",
+                                "Denied",
+                                "InvalidPosition",
+                                "SendQ"
+                            ]
+                        }
+                    },
+                    "required": [ "response", "error" ]
+                },
+                "FileGetError": {
+                    "type": "object",
+                    "properties": {
+                        "response": { "enum": ["FileGetError"] },
+                        "error": { "enum": [ "FriendNotFound", "NotFound" ] }
+                    },
+                    "required": [ "response", "error" ]
+                },
+                "FileSendError": {
+                    "type": "object",
+                    "properties": {
+                        "response": { "enum": ["FileSendError"] },
+                        "error": {
+                            "enum": [
+                                "FriendNotFound",
+                                "FriendNotConnected",
+                                "NameTooLong",
+                                "TooMany"
+                            ]
+                        }
+                    },
+                    "required": [ "response", "error" ]
+                },
+                "FileSendChunkError": {
+                    "type": "object",
+                    "properties": {
+                        "response": { "enum": ["FileSendChunkError"] },
+                        "error": {
+                            "enum": [
+                                "FriendNotFound",
+                                "FriendNotConnected",
+                                "NotFound",
+                                "NotTransferring",
+                                "InvalidLength",
+                                "SendQ",
+                                "WrongPosition"
+                            ]
+                        }
+                    },
+                    "required": [ "response", "error" ]
+                },
                 "ConferenceType": {
                     "type": "object",
                     "properties": {
@@ -325,6 +417,13 @@
                 { "$ref": "#/definitions/Response/definitions/Friend" },
                 { "$ref": "#/definitions/Response/definitions/FriendExists" },
                 { "$ref": "#/definitions/Response/definitions/LastOnline" },
+                { "$ref": "#/definitions/Response/definitions/FileId" },
+                { "$ref": "#/definitions/Response/definitions/FileNumber" },
+                { "$ref": "#/definitions/Response/definitions/FileControlError" },
+                { "$ref": "#/definitions/Response/definitions/FileSeekError" },
+                { "$ref": "#/definitions/Response/definitions/FileGetError" },
+                { "$ref": "#/definitions/Response/definitions/FileSendError" },
+                { "$ref": "#/definitions/Response/definitions/FileSendChunkError" },
                 { "$ref": "#/definitions/Response/definitions/Conference" },
                 { "$ref": "#/definitions/Response/definitions/ConferencePeerCount" },
                 { "$ref": "#/definitions/Response/definitions/ConferencePeerName" },

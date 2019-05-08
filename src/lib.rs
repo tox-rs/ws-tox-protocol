@@ -40,6 +40,18 @@ pub enum Request {
     GetFriendStatus { friend: u32 },
     GetFriendConnectionStatus { friend: u32 },
 
+    ControlFile { friend: u32, file_number: u32, control: FileControl },
+    SeekFile { friend: u32, file_number: u32, position: usize },
+    GetFileId { friend: u32, file_number: u32 },
+    SendFile { friend: u32, kind: FileKind, file_size: usize, file_name: String },
+    SendFileChunk {
+        friend: u32,
+        file_number: u32,
+        position: usize,
+        #[serde(with = "Base64")]
+        data: Vec<u8>
+    },
+
     NewConference,
     DeleteConference { conference: u32 },
     ConferencePeerCount { conference: u32, },
@@ -84,6 +96,14 @@ pub enum Response {
     Friend { friend: u32 },
     FriendExists { exists: bool },
     LastOnline { last_online: u64 },
+
+    FileId { id: String },
+    FileNumber { file_number: u32 },
+    FileControlError { error: FileControlError },
+    FileSeekError { error: FileSeekError },
+    FileGetError { error: FileGetError },
+    FileSendError { error: FileSendError },
+    FileSendChunkError { error: FileSendChunkError },
 
     Conference { conference: u32 },
     ConferencePeerCount { count: u32 },
@@ -369,6 +389,24 @@ impl From<rstox::core::FileControl> for FileControl {
 }
 
 #[derive(Serialize, Deserialize, Clone, Copy, Debug)]
+pub enum FileKind {
+    Data,
+    Avatar,
+}
+
+#[cfg(not(target_arch = "wasm32"))]
+impl From<FileKind> for rstox::core::FileKind {
+    fn from(ty: FileKind) -> rstox::core::FileKind {
+        use rstox::core::FileKind as K;
+
+        match ty {
+            FileKind::Data => K::Data,
+            FileKind::Avatar => K::Avatar,
+        }
+    }
+}
+
+#[derive(Serialize, Deserialize, Clone, Copy, Debug)]
 pub enum ConferenceType {
     Text,
     Av,
@@ -448,6 +486,143 @@ impl TryFrom<rstox::core::errors::FriendSendMessageError> for SendFriendMessageE
             E::NotConnected => Ok(SendFriendMessageError::NotConnected),
             E::TooLong => Ok(SendFriendMessageError::TooLong),
             E::Empty => Ok(SendFriendMessageError::Empty),
+            _ => Err(())
+        }
+    }
+}
+
+#[derive(Serialize, Deserialize, Clone, Copy, Debug)]
+pub enum FileControlError {
+    FriendNotFound,
+    FriendNotConnected,
+    NotFound,
+    NotPaused,
+    Denied,
+    AlreadyPaused,
+    SendQ,
+}
+
+#[cfg(not(target_arch = "wasm32"))]
+impl TryFrom<rstox::core::errors::FileControlError> for FileControlError {
+    type Error = ();
+
+    fn try_from(error: rstox::core::errors::FileControlError) -> Result<FileControlError, ()> {
+        use rstox::core::errors::FileControlError as E;
+
+        match error {
+            E::FriendNotFound => Ok(FileControlError::FriendNotFound),
+            E::FriendNotConnected => Ok(FileControlError::FriendNotConnected),
+            E::NotFound => Ok(FileControlError::NotFound),
+            E::NotPaused => Ok(FileControlError::NotPaused),
+            E::Denied => Ok(FileControlError::Denied),
+            E::AlreadyPaused => Ok(FileControlError::AlreadyPaused),
+            E::SendQ => Ok(FileControlError::SendQ),
+            _ => Err(())
+        }
+    }
+}
+
+#[derive(Serialize, Deserialize, Clone, Copy, Debug)]
+pub enum FileSeekError {
+    FriendNotFound,
+    FriendNotConnected,
+    NotFound,
+    Denied,
+    InvalidPosition,
+    SendQ,
+}
+
+#[cfg(not(target_arch = "wasm32"))]
+impl TryFrom<rstox::core::errors::FileSeekError> for FileSeekError {
+    type Error = ();
+
+    fn try_from(error: rstox::core::errors::FileSeekError) -> Result<FileSeekError, ()> {
+        use rstox::core::errors::FileSeekError as E;
+
+        match error {
+            E::FriendNotFound => Ok(FileSeekError::FriendNotFound),
+            E::FriendNotConnected => Ok(FileSeekError::FriendNotConnected),
+            E::NotFound => Ok(FileSeekError::NotFound),
+            E::Denied => Ok(FileSeekError::Denied),
+            E::InvalidPosition => Ok(FileSeekError::InvalidPosition),
+            E::SendQ => Ok(FileSeekError::SendQ),
+            _ => Err(())
+        }
+    }
+}
+
+#[derive(Serialize, Deserialize, Clone, Copy, Debug)]
+pub enum FileGetError {
+    FriendNotFound,
+    NotFound
+}
+
+#[cfg(not(target_arch = "wasm32"))]
+impl TryFrom<rstox::core::errors::FileGetError> for FileGetError {
+    type Error = ();
+
+    fn try_from(error: rstox::core::errors::FileGetError) -> Result<FileGetError, ()> {
+        use rstox::core::errors::FileGetError as E;
+
+        match error {
+            E::FriendNotFound => Ok(FileGetError::FriendNotFound),
+            E::NotFound => Ok(FileGetError::NotFound),
+            _ => Err(())
+        }
+    }
+}
+
+#[derive(Serialize, Deserialize, Clone, Copy, Debug)]
+pub enum FileSendError {
+    FriendNotFound,
+    FriendNotConnected,
+    NameTooLong,
+    TooMany,
+}
+
+#[cfg(not(target_arch = "wasm32"))]
+impl TryFrom<rstox::core::errors::FileSendError> for FileSendError {
+    type Error = ();
+
+    fn try_from(error: rstox::core::errors::FileSendError) -> Result<FileSendError, ()> {
+        use rstox::core::errors::FileSendError as E;
+
+        match error {
+            E::FriendNotFound => Ok(FileSendError::FriendNotFound),
+            E::FriendNotConnected => Ok(FileSendError::FriendNotConnected),
+            E::NameTooLong => Ok(FileSendError::NameTooLong),
+            E::TooMany => Ok(FileSendError::TooMany),
+            _ => Err(())
+        }
+    }
+}
+
+#[derive(Serialize, Deserialize, Clone, Copy, Debug)]
+pub enum FileSendChunkError {
+    FriendNotFound,
+    FriendNotConnected,
+    NotFound,
+    NotTransferring,
+    InvalidLength,
+    SendQ,
+    WrongPosition,
+}
+
+#[cfg(not(target_arch = "wasm32"))]
+impl TryFrom<rstox::core::errors::FileSendChunkError> for FileSendChunkError {
+    type Error = ();
+
+    fn try_from(error: rstox::core::errors::FileSendChunkError) -> Result<FileSendChunkError, ()> {
+        use rstox::core::errors::FileSendChunkError as E;
+
+        match error {
+            E::FriendNotFound => Ok(FileSendChunkError::FriendNotFound),
+            E::FriendNotConnected => Ok(FileSendChunkError::FriendNotConnected),
+            E::NotFound => Ok(FileSendChunkError::NotFound),
+            E::NotTransferring => Ok(FileSendChunkError::NotTransferring),
+            E::InvalidLength => Ok(FileSendChunkError::InvalidLength),
+            E::SendQ => Ok(FileSendChunkError::SendQ),
+            E::WrongPosition => Ok(FileSendChunkError::WrongPosition),
             _ => Err(())
         }
     }
