@@ -447,6 +447,53 @@
                     },
                     "required": [ "event", "friend", "message_id" ]
                 },
+                "FileControlReceipt": {
+                    "type": "object",
+                    "properties": {
+                        "event": { "enum": ["FileControlReceipt"] },
+                        "friend": { "type": "number" },
+                        "file_number": { "type": "number" },
+                        "control": { "enum": [ "Resume", "Pause", "Cancel" ] }
+                    },
+                    "required": [ "event", "friend", "file_number", "control" ]
+                },
+                "FileChunkRequest": {
+                    "type": "object",
+                    "properties": {
+                        "event": { "enum": ["FileChunkRequest"] },
+                        "friend": { "type": "number" },
+                        "file_number": { "type": "number" },
+                        "position": { "type": "number" },
+                        "length": { "type": "number" }
+                    },
+                    "required": [ "event", "friend", "file_number", "position", "length" ]
+                },
+                "FileReceipt": {
+                    "type": "object",
+                    "properties": {
+                        "event": { "enum": ["FileReceipt"] },
+                        "friend": { "type": "number" },
+                        "file_number": { "type": "number" },
+                        "kind": { "type": "number" },
+                        "file_size": { "type": "number" },
+                        "file_name": { "type": "string" }
+                    },
+                    "required": [ "event", "friend", "file_number", "kind", "file_size", "file_name" ]
+                },
+                "FileChunkReceipt": {
+                    "type": "object",
+                    "properties": {
+                        "event": { "enum": ["FileChunkReceipt"] },
+                        "friend": { "type": "number" },
+                        "file_number": { "type": "number" },
+                        "position": { "type": "number" },
+                        "data": {
+                            "type": "string",
+                            "contentEncoding": "base64"
+                        }
+                    },
+                    "required": [ "event", "friend", "file_number", "position", "data" ]
+                },
                 "ConferenceInvite": {
                     "type": "object",
                     "properties": {
@@ -518,6 +565,10 @@
                 { "$ref": "#/definitions/Event/definitions/FriendConnectionStatus" },
                 { "$ref": "#/definitions/Event/definitions/FriendTyping" },
                 { "$ref": "#/definitions/Event/definitions/FriendReadReceipt" },
+                { "$ref": "#/definitions/Event/definitions/FileControlReceipt" },
+                { "$ref": "#/definitions/Event/definitions/FileChunkRequest" },
+                { "$ref": "#/definitions/Event/definitions/FileReceipt" },
+                { "$ref": "#/definitions/Event/definitions/FileChunkReceipt" },
                 { "$ref": "#/definitions/Event/definitions/ConferenceInvite" },
                 { "$ref": "#/definitions/Event/definitions/ConferenceConnected" },
                 { "$ref": "#/definitions/Event/definitions/ConferenceMessage" },
