@@ -238,6 +238,35 @@ impl Event {
                     message_id,
                 },
 
+            E::FileControlReceive { friend, file_number, control } =>
+                Event::FileControlReceipt {
+                    friend,
+                    file_number,
+                    control: control.into()
+                },
+            E::FileChunkRequest { friend, file_number, position, length } =>
+                Event::FileChunkRequest {
+                    friend,
+                    file_number,
+                    position,
+                    length
+                },
+            E::FileReceive { friend, file_number, kind, file_size, ref file_name } =>
+                Event::FileReceipt {
+                    friend,
+                    file_number,
+                    kind: kind.into(),
+                    file_size,
+                    file_name: file_name.clone()
+                },
+            E::FileChunkReceive { friend, file_number, position, ref data } =>
+                Event::FileChunkReceipt {
+                    friend,
+                    file_number,
+                    position,
+                    data: data.clone()
+                },
+
             E::ConferenceInvite { friend, kind, ref cookie } =>
                 Event::ConferenceInvite {
                     friend,
