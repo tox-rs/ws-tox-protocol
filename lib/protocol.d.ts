@@ -5,6 +5,7 @@ export type ToxRequest =
     Requests.AddFriend |
     Requests.AddFriendNorequest |
     Requests.SendFriendMessage |
+    Requests.DeleteFriend |
 
     Requests.GetConnectionStatus |
     Requests.GetAddress |
@@ -34,6 +35,7 @@ export type ToxRequest =
 
     Requests.NewConference |
     Requests.DeleteConference |
+    Requests.GetPeerList |
     Requests.ConferencePeerCount |
     Requests.GetPeerName |
     Requests.GetPeerPublicKey |
@@ -43,7 +45,7 @@ export type ToxRequest =
     Requests.SendConferenceMessage |
     Requests.GetConferenceTitle |
     Requests.SetConferenceTitle |
-    Requests.GetChatList |
+    Requests.GetConferenceList |
     Requests.GetConferenceType;
 
 export type ToxResponse =
@@ -70,12 +72,13 @@ export type ToxResponse =
     Responses.FileSendChunkError |
 
     Responses.Conference |
+    Responses.ConferencePeerList |
     Responses.ConferencePeerCount |
     Responses.ConferencePeerName |
     Responses.ConferencePeerPublicKey |
     Responses.IsOwnPeerNumber |
     Responses.ConferenceTitle |
-    Responses.ChatList |
+    Responses.ConferenceList |
     Responses.ConferenceType |
 
     Responses.AddFriendError |
@@ -122,6 +125,19 @@ export interface FriendInfo {
     "status": UserStatus,
     "status_message": string,
     "last_online": number,
+}
+
+export interface PeerInfo {
+    "number": number,
+    "public_key": string,
+    "name": string,
+}
+
+export interface ConferenceInfo {
+    "number": number,
+    "kind": ConferenceType,
+    "title": string,
+    "peers": PeerInfo[]
 }
 
 export namespace Requests {
@@ -239,26 +255,31 @@ export namespace Requests {
         "message": string
     }
 
+    export interface DeleteFriend extends Request {
+        "request": "DeleteFriend"
+        "friend": number
+    }
+
     export interface ControlFile extends Request {
         "request": "ControlFile"
         "friend": number
         "file_number": number
         "control": FileControl
     }
-    
+
     export interface SeekFile extends Request {
         "request": "SeekFile"
         "friend": number
         "file_number": number
         "position": number
     }
-    
+
     export interface GetFileId extends Request {
         "request": "GetFileId"
         "friend": number
         "file_number": number
     }
-    
+
     export interface SendFile extends Request {
         "request": "SendFile"
         "friend": number
@@ -266,7 +287,7 @@ export namespace Requests {
         "file_size": number
         "file_name": string
     }
-    
+
     export interface SendFileChunk extends Request {
         "request": "SendFileChunk"
         "friend": number
@@ -282,6 +303,11 @@ export namespace Requests {
     export interface DeleteConference extends Request {
         "request": "DeleteConference",
         "conference": number,
+    }
+
+    export interface GetPeerList extends Request {
+        "request": "GetPeerList"
+        "conference": number
     }
 
     export interface ConferencePeerCount extends Request {
@@ -337,8 +363,8 @@ export namespace Requests {
         "title": string,
     }
 
-    export interface GetChatList extends Request {
-        "request": "GetChatList",
+    export interface GetConferenceList extends Request {
+        "request": "GetConferenceList",
     }
 
     export interface GetConferenceType extends Request {
@@ -424,32 +450,32 @@ export namespace Responses {
         "response": "FileId"
         "id": string
     }
-    
+
     export interface FileNumber extends Response {
         "response": "FileNumber"
         "file_number": number
     }
-    
+
     export interface FileControlError extends Response {
         "response": "FileControlError"
         "error": FileControlError
     }
-    
+
     export interface FileSeekError extends Response {
         "response": "FileSeekError"
         "error": FileSeekError
     }
-    
+
     export interface FileGetError extends Response {
         "response": "FileGetError"
         "error": FileGetError
     }
-    
+
     export interface FileSendError extends Response {
         "response": "FileSendError"
         "error": FileSendError
     }
-    
+
     export interface FileSendChunkError extends Response {
         "response": "FileSendChunkError"
         "error": FileSendChunkError
@@ -458,6 +484,11 @@ export namespace Responses {
     export interface Conference extends Response {
         "response": "Conference",
         "conference": number
+    }
+
+    export interface ConferencePeerList extends Response {
+        "response": "PeerList"
+        "peers": PeerInfo[]
     }
 
     export interface ConferencePeerCount extends Response {
@@ -485,9 +516,9 @@ export namespace Responses {
         "title": string,
     }
 
-    export interface ChatList extends Response {
-        "response": "ChatList",
-        "list": number[]
+    export interface ConferenceList extends Response {
+        "response": "ConferenceList"
+        "conferences": ConferenceInfo[]
     }
 
     export interface ConferenceType extends Response {

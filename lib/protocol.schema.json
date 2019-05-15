@@ -139,6 +139,17 @@
                     },
                     "required": [ "response", "conference" ]
                 },
+                "ConferencePeerList": {
+                    "type": "object",
+                    "properties": {
+                        "response": { "enum": ["ConferencePeerList"] },
+                        "peers": {
+                            "type": "array",
+                            "items": { "$ref": "#/definitions/PeerInfo" }
+                        }
+                    },
+                    "required": [ "response", "peers" ]
+                },
                 "ConferencePeerCount": {
                     "type": "object",
                     "properties": {
@@ -179,16 +190,16 @@
                     },
                     "required": [ "response", "title" ]
                 },
-                "ChatList": {
+                "ConferenceList": {
                     "type": "object",
                     "properties": {
-                        "response": { "enum": ["ChatList"] },
-                        "list": {
+                        "response": { "enum": ["ConferenceList"] },
+                        "conferences": {
                             "type": "array",
-                            "items": [{"type": "number"}]
+                            "items": { "$ref": "#/definitions/ConferenceInfo" }
                         }
                     },
-                    "required": [ "response", "items" ]
+                    "required": [ "response", "conferences" ]
                 },
                 "FileId": {
                     "type": "object",
@@ -425,12 +436,13 @@
                 { "$ref": "#/definitions/Response/definitions/FileSendError" },
                 { "$ref": "#/definitions/Response/definitions/FileSendChunkError" },
                 { "$ref": "#/definitions/Response/definitions/Conference" },
+                { "$ref": "#/definitions/Response/definitions/ConferencePeerList" },
                 { "$ref": "#/definitions/Response/definitions/ConferencePeerCount" },
                 { "$ref": "#/definitions/Response/definitions/ConferencePeerName" },
                 { "$ref": "#/definitions/Response/definitions/ConferencePeerPublicKey" },
                 { "$ref": "#/definitions/Response/definitions/IsOwnPeerNumber" },
                 { "$ref": "#/definitions/Response/definitions/ConferenceTitle" },
-                { "$ref": "#/definitions/Response/definitions/ChatList" },
+                { "$ref": "#/definitions/Response/definitions/ConferenceList" },
                 { "$ref": "#/definitions/Response/definitions/ConferenceType" },
                 { "$ref": "#/definitions/Response/definitions/AddFriendError" },
                 { "$ref": "#/definitions/Response/definitions/SendFriendMessageError" },
@@ -700,6 +712,27 @@
                 "status_message",
                 "last_online"
             ]
+        },
+        "PeerInfo": {
+            "type": "object",
+            "properties": {
+                "number": { "type": "number" },
+                "public_key": { "type": "string" },
+                "name": { "type": "string" }
+            },
+            "required": [ "number", "public_key", "name" ]
+        },
+        "ConferenceInfo": {
+            "type": "object",
+            "properties": {
+                "number": { "type": "number" },
+                "kind": { "enum": ["Text", "Av"] },
+                "title": { "type": "string" },
+                "peers": {
+                    "type": "array",
+                    "items": { "$ref": "#/definitions/PeerInfo" }
+                }
+            }
         }
     }
 }
