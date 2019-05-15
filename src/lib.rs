@@ -19,6 +19,7 @@ pub enum Request {
     AddFriend { tox_id: String, message: String },
     AddFriendNorequest { tox_id: String },
     SendFriendMessage { friend: u32, kind: MessageType, message: String },
+    DeleteFriend { friend: u32 },
 
     GetConnectionStatus,
     GetAddress,
@@ -54,6 +55,7 @@ pub enum Request {
 
     NewConference,
     DeleteConference { conference: u32 },
+    GetPeerList { conference: u32 },
     ConferencePeerCount { conference: u32, },
     GetPeerName { conference: u32, peer: u32 },
     GetPeerPublicKey { conference: u32, peer: u32 },
@@ -67,7 +69,7 @@ pub enum Request {
     SendConferenceMessage { conference: u32, kind: MessageType, message: String },
     GetConferenceTitle { conference: u32, },
     SetConferenceTitle { conference: u32, title: String },
-    GetChatList,
+    GetConferenceList,
     GetConferenceType { conference: u32 },
 }
 
@@ -106,12 +108,13 @@ pub enum Response {
     FileSendChunkError { error: FileSendChunkError },
 
     Conference { conference: u32 },
+    ConferencePeerList { peers: Vec<PeerInfo> },
     ConferencePeerCount { count: u32 },
     ConferencePeerName { name: String },
     ConferencePeerPublicKey { public_key: String },
     IsOwnPeerNumber { is_own: bool, },
     ConferenceTitle { title: String, },
-    ChatList { list: Vec<u32> },
+    ConferenceList { conferences: Vec<ConferenceInfo> },
     ConferenceType { kind: ConferenceType },
 
     AddFriendError { error: AddFriendError },
@@ -313,6 +316,21 @@ pub struct Friend {
     pub status: UserStatus,
     pub status_message: String,
     pub last_online: u64,
+}
+
+#[derive(Serialize, Deserialize, Clone, Debug)]
+pub struct PeerInfo {
+    pub number: u32,
+    pub public_key: String,
+    pub name: String,
+}
+
+#[derive(Serialize, Deserialize, Clone, Debug)]
+pub struct ConferenceInfo {
+    pub number: u32,
+    pub kind: ConferenceType,
+    pub title: String,
+    pub peers: Vec<PeerInfo>,
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug)]
