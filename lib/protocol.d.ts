@@ -487,7 +487,7 @@ export namespace Responses {
     }
 
     export interface ConferencePeerList extends Response {
-        "response": "PeerList"
+        "response": "ConferencePeerList"
         "peers": PeerInfo[]
     }
 
