@@ -130,6 +130,7 @@ pub enum Response {
 #[derive(Serialize, Deserialize, Clone, Debug)]
 #[serde(tag = "event")]
 pub enum Event {
+    SecretKey { secret_key: String },
     ConnectionStatus { status: ConnectionStatus },
     FriendRequest { public_key: [u8; 32], message: String },
     FriendMessage { friend: u32, kind: MessageType, message: String },

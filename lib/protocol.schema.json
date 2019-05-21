@@ -456,6 +456,14 @@
         },
         "Event": {
             "definitions": {
+                "SecretKey": {
+                    "type": "object",
+                    "properties": {
+                        "event": { "enum": ["SecretKey"] },
+                        "secret_key": { "type": "string" }
+                    },
+                    "required": [ "event", "secret_key" ]
+                },
                 "ConnectionStatus": {
                     "type": "object",
                     "properties": {
@@ -667,6 +675,7 @@
                 }
             },
             "oneOf": [
+                { "$ref": "#/definitions/Event/definitions/SecretKey" },
                 { "$ref": "#/definitions/Event/definitions/ConnectionStatus" },
                 { "$ref": "#/definitions/Event/definitions/FriendRequest" },
                 { "$ref": "#/definitions/Event/definitions/FriendMessage" },
