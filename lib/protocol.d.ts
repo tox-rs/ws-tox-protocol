@@ -91,6 +91,7 @@ export type ToxResponse =
     Responses.ConferenceTitleError;
 
 export type ToxEvent =
+    Events.SecretKey |
     Events.ConnectionStatus |
     Events.FriendRequest |
     Events.FriendMessage |
@@ -569,6 +570,11 @@ export namespace Responses {
 export namespace Events {
     export interface Event {
         "event": string
+    }
+
+    export interface SecretKey extends Event {
+        "event": "SecretKey"
+        "secret_key": string
     }
 
     export interface ConnectionStatus extends Event {
