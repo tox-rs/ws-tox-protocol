@@ -16,6 +16,13 @@ pub enum ServerMessage {
 #[serde(tag = "request")]
 pub enum Request {
     Info,
+    SetInfo {
+        nospam: String,
+        name: String,
+        status: UserStatus,
+        status_message: String,
+        friends: Vec<String>
+    },
     AddFriend { tox_id: String, message: String },
     AddFriendNorequest { tox_id: String },
     SendFriendMessage { friend: u32, kind: MessageType, message: String },
