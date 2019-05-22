@@ -2,6 +2,7 @@ export type ServerMessage = ToxResponse | ToxEvent;
 
 export type ToxRequest =
     Requests.Info |
+    Requests.SetInfo |
     Requests.AddFriend |
     Requests.AddFriendNorequest |
     Requests.SendFriendMessage |
@@ -148,6 +149,15 @@ export namespace Requests {
 
     export interface Info extends Request {
         "request": "Info",
+    }
+
+    export interface SetInfo extends Request {
+        "request": "SetInfo"
+        "nospam": string
+        "name": string
+        "status": UserStatus
+        "status_message": string
+        "friends": string[]
     }
 
     interface GetConnectionStatus extends Request {
