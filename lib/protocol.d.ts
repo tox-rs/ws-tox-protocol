@@ -52,6 +52,7 @@ export type ToxRequest =
 export type ToxResponse =
     Responses.Ok |
     Responses.Info |
+    Responses.MessageSent |
 
     Responses.ConnectionStatus |
     Responses.Address |
