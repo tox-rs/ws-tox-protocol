@@ -34,6 +34,8 @@ export type ToxRequest =
     Requests.SendFile |
     Requests.SendFileChunk |
 
+    Requests.SendAvatar |
+
     Requests.NewConference |
     Requests.DeleteConference |
     Requests.GetPeerList |
@@ -306,6 +308,13 @@ export namespace Requests {
         "file_number": number
         "position": number
         "data": string
+    }
+
+    export interface SendAvatar extends Request {
+        "request": "SendAvatar"
+        "friend": number
+        "file_size": number
+        "file_hash": string
     }
 
     export interface NewConference extends Request {

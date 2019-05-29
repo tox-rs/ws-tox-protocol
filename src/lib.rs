@@ -60,6 +60,8 @@ pub enum Request {
         data: Vec<u8>
     },
 
+    SendAvatar { friend: u32, file_size: usize, file_hash: String },
+
     NewConference,
     DeleteConference { conference: u32 },
     GetPeerList { conference: u32 },
@@ -249,7 +251,7 @@ impl Event {
                     message_id,
                 },
 
-            E::FileControlReceive { friend, file_number, control } =>
+            E::FileControlReceipt { friend, file_number, control } =>
                 Event::FileControlReceipt {
                     friend,
                     file_number,
@@ -262,7 +264,7 @@ impl Event {
                     position,
                     length
                 },
-            E::FileReceive { friend, file_number, kind, file_size, ref file_name } =>
+            E::FileReceipt { friend, file_number, kind, file_size, ref file_name } =>
                 Event::FileReceipt {
                     friend,
                     file_number,
@@ -270,7 +272,7 @@ impl Event {
                     file_size,
                     file_name: file_name.clone()
                 },
-            E::FileChunkReceive { friend, file_number, position, ref data } =>
+            E::FileChunkReceipt { friend, file_number, position, ref data } =>
                 Event::FileChunkReceipt {
                     friend,
                     file_number,
